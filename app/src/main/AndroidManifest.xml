@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="onlinemarketing.net.sudanjobnet">
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+
+        android:name="onlinemarketing.net.sudanjobnet.Activity.PiwikApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        android:theme="@style/MyMaterialTheme.Base"
+        tools:replace="android:icon,android:theme">
+
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.Splash"
+            android:label="@string/app_name"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.MainActivity"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Fragment.Fragment_Job_Details"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Fragment.Fragment_learning_Details"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Fragment.Fragment_freehour_Details"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name="onlinemarketing.net.sudanjobnet.Activity.Pref" />
+
+        <!-- <activity android:name=".Activity.fragment_training"></activity> -->
+        <activity android:name="onlinemarketing.net.sudanjobnet.Activity.NotificationView" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider771911009575719"
+            android:exported="true" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.About_Us"
+            android:configChanges="orientation|screenSize"
+            android:label="About"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.About_Freehour"
+            android:configChanges="orientation|screenSize"
+            android:label="About"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.About_Go_Envent"
+            android:configChanges="orientation|screenSize"
+            android:label="About"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
+            android:name="onlinemarketing.net.sudanjobnet.Activity.About_Learn"
+            android:configChanges="orientation|screenSize"
+            android:label="About"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+
+        <meta-data
+            android:name="android.arch.lifecycle.VERSION"
+            android:value="27.0.0-SNAPSHOT" />
+        <receiver android:name=".Activity.Notification_Receiver" android:enabled="true"/>
+        <activity
+            android:name=".Fragment.Fragment_go_event_Details"></activity>
+    </application>
+
+</manifest>

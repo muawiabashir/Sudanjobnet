@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sign_up"
+            android:icon="@drawable/ic_action_post"
+
+            android:title="Create Account"/>
+        <item
+            android:id="@+id/post_job"
+            android:icon="@drawable/ic_action_post"
+
+            android:title="Post Job"/>
+        <item
+            android:id="@+id/post_course_workshop"
+            android:icon="@drawable/ic_workshop"
+            android:title="@string/post_course_workshop"/>
+        <item
+            android:id="@+id/View_CV"
+            android:icon="@drawable/ic_action_cv"
+            android:title="View CV"/>
+        <item
+            android:id="@+id/contact_us"
+            android:icon="@drawable/ic_action_contact"
+            android:title="Contact Us"/>
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/ic_action_name"
+            android:title="Help"/>
+    </group>
+    <item android:title="Abouts">
+        <menu>
+            <group android:id="@+id/abouts" android:checkableBehavior="single" >
+
+                <item
+                    android:id="@+id/about_sudanjob1"
+                    android:icon="@drawable/ic_action_post"
+
+                    android:title="About Sudanjob.net"/>
+                <item
+                    android:id="@+id/about_learn1"
+                    android:icon="@drawable/ic_action_post"
+
+                    android:title="About Learn"/>
+                <item
+                    android:id="@+id/about_freehoure1"
+                    android:icon="@drawable/ic_workshop"
+                    android:title="About FreeHour"/>
+                <item
+                    android:id="@+id/about_go_event1"
+                    android:icon="@drawable/ic_workshop"
+                    android:title="About Go Event"/>
+            </group>
+
+        </menu>
+    </item>
+
+
+
+
+</menu>

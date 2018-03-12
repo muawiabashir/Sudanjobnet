@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">Sudanjob.net</string>
+
+    <string name="strOK">Ok</string>
+    <string name="check_connection">there is no internet connection!</string>
+    <string-array name="syncFrequency">
+        <item name="1">Once a day</item>
+        <item name="7">Once a week</item>
+        <item name="3">Once a year</item>
+        <item name="0">Never (Update maually)</item>
+    </string-array>
+    <string-array name="syncFrequencyValues">
+        <item name="1">1</item>
+        <item name="7">7</item>
+        <item name="30">30</item>
+        <item name="0">0</item>
+    </string-array>
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    <string name="pref_user_name">Set username</string>
+    <string name="pref_user_name_summary">Set your username</string>
+
+    <string name="pref_user_profile">User Profile</string>
+    <string name="pref_update_setting">Update Settings</string>
+    <string name="facebook_app_id">771911009575719</string>
+    <!-- navigation drawer item labels  -->
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="post_course_workshop"><![CDATA[Post Course & WorkShop]]></string>
+    <string name="connect_you_to_better_jobs_and_vacancies">Sudanjob.net is a recruiting service started in 2006 to connect job seekers with employers in a transparent environment.</string>
+
+
+    <string name="we_connect"> We connect you to better jobs.</string>
+    <string name="action_search">Search</string>
+    <string name="facebook">Facebook</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="location">Location:</string>
+    <string name="closing">Closing:</string>
+    <string name="co_org">Co/Org:</string>
+    <string name="details">details</string>
+    <string name="image">image</string>
+    <string name="apply">Apply</string>
+    <string name="hary">Hurry Up </string>
+    <string name="share">Share</string>
+    <string name="about">About Sudanjob.net</string>
+    <string name="learn">About Learn</string>
+    <string name="freehoure">About FreeHoure</string>
+    <string name="go_event">About Go Event</string>
+    <string name="learning">Connect to Knowledge, Find Education  LearnPage.net is a bridge connecting students and educational institutions together, you will find all courses and training.</string>
+    <string name="freeHours">FreeHour is one hour knowledge sharing session presented by volunteer experts in various fields.  Be part of the session:  - Select your FreeHour session - Register online - First come first serve (limited chairs)    If you are an expert and want to volunteer please contact us at freehour@learnpage.net      Find sessions in Freehour.learnpage.net</string>
+    <string name="goeventabout">Find conferences and workshops in Sudan.  Be connected at goevent.learnpage.net</string>
+
+    <!-- navigation drawer item labels  -->
+
+
+
+</resources>
+
