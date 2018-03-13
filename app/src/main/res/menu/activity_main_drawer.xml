@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sign_up"
-            android:icon="@drawable/ic_action_post"
+            android:icon="@drawable/ic_create_account"
 
             android:title="Create Account"/>
         <item
@@ -26,16 +26,16 @@
             android:title="Contact Us"/>
         <item
             android:id="@+id/help"
-            android:icon="@drawable/ic_action_name"
+            android:icon="@drawable/ic_help"
             android:title="Help"/>
     </group>
-    <item android:title="Abouts">
+    <item android:title="About">
         <menu>
             <group android:id="@+id/abouts" android:checkableBehavior="single" >
 
                 <item
                     android:id="@+id/about_sudanjob1"
-                    android:icon="@drawable/ic_action_post"
+                    android:icon="@mipmap/icon_sudanjob1"
 
                     android:title="About Sudanjob.net"/>
                 <item

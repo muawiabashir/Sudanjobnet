@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
 
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
-        android:layout_marginTop="6dp"
 
+        android:layout_marginTop="6dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingBottom="20dp"
-        android:id="@+id/linearLayout">
+        android:paddingBottom="20dp">
 
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-          android:background="@color/colorAccent"
+            android:background="@drawable/gradient_header_background"
             android:padding="10dp"
-            android:text="About Go Event"
+
+            android:text="@string/go_event"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
@@ -42,27 +44,13 @@
             android:text="@string/goeventabout"
             android:textColor="@color/colorAccent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
 
-            android:text="@string/we_connect"
-            android:textColor="@color/colorAccent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:text="Android App Version v 1.0.0"/>
         <Button
             android:id="@+id/positive_button"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-
+            android:background="@drawable/bt_dialog_positive"
             android:text="Close"
             android:textColor="@color/colorAccent" />
 
@@ -76,7 +64,7 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignTop="@+id/linearLayout"
-        android:background="@color/colorAccent"
+        android:background="@drawable/bt_dialog_close"
         android:text="X"
         android:textColor="@color/white" />
 

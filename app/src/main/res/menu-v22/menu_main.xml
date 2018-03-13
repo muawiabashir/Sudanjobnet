@@ -1,31 +1,6 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<menu xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.MainActivity">
 
-    <item
-        android:id="@+id/action_about_us"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/about"
 
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/about_learn"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/learn"
-
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/about_freehoure"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/freehoure"
-
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/about_go_event"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/go_event"
-
-        app:showAsAction="never" />
 
 </menu>

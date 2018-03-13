@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -58,12 +56,13 @@ import onlinemarketing.net.sudanjobnet.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     String HeaderURL = "http://www.sudanjob.net/apphead.php";
+    NavigationView navigationView = null;
+    boolean doubleBackToExitPressedOnce = false;
     private TabLayout tabLayout;
     private ImageLoader imageLoader;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private ArrayList<HeaderImage> headerImageArrayList = new ArrayList<>();
-
     private ArrayList<JobItems> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterJobs adapter;
     private RecyclerView recyclerView;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //SqlHandler db;
     private String[] title = {"Jobs", "Learn", "Training", "Go Event"
     };
-
     private int[] tabIcons = {
             R.drawable.ic_tab_sudanjob,
             R.drawable.ic_tab_sudanjob,
@@ -79,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             R.drawable.ic_tab_sudanjob
     };
     private ProgressDialog pd = null;
-
-    NavigationView navigationView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
         navigationView = findViewById(R.id.nav_view);
         header_progress = findViewById(R.id.header_progress);
 
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.setupWithViewPager(viewPager);
 //        setupTabIcons();
         setupToolbar();
-
+        navigationView.setItemIconTintList(null);
         setupViewPager();
 
         setupCollapsingToolbar();
@@ -146,12 +143,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
   private void setupTabIcons(){
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
       tabLayout.getTabAt(1).setIcon(tabIcons[1]);
       tabLayout.getTabAt(2).setIcon(tabIcons[2]);
       tabLayout.getTabAt(3).setIcon(tabIcons[3]);
   }
+
     public void check_4_Updates(){
         AppUpdater appUpdater = new AppUpdater(this);
         appUpdater.start();
@@ -171,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .start();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -180,6 +178,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //     super.onCreateOptionsMenu(menu, inflater);
         return true;
     }
+
+
+//    private void setupTabIcons() {
+//        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+//        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,13 +212,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-
-//    private void setupTabIcons() {
-//        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-//        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-//    }
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new Fragment_Job_List(), " Jobs");
@@ -236,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    share.putExtra(Intent.EXTRA_ASSIST_CONTEXT,)
         startActivity(Intent.createChooser(share, "Share Sudanjob app !"));
     }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -299,37 +296,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-
-
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 
     @Override
@@ -412,8 +378,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
   }
 
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -434,10 +398,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }, 2000);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         // .... other stuff in my onResume ....
         this.doubleBackToExitPressedOnce = false;
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+
+
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

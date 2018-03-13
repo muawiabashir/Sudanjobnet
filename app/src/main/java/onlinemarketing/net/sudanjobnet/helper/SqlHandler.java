@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,41 +42,9 @@ public class SqlHandler {
     public  static final String TAG_qualification = "qualification";
     public  static final String TAG_footer = "footer";
     public  static final String TAG_city = "city";
-    private DbHelper ourHelper;
     private final Context ourCTX;
     public SQLiteDatabase ourDb;
-
-    private static class DbHelper extends SQLiteOpenHelper {
-
-        public DbHelper(Context context) {
-            super(context, DATBASE_NAME, null, DATABASE_VERSION);
-
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            // create the database using SQL
-            db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT ," + TAG_PID + " TEXT ,"
-                    + TAG_TITLE + " TEXT , " + TAG_COMPANY_NAME + " TEXT , " + TAG_CLOSING + " TEXT , " + TAG_city + " TEXT , " + TAG_footer+ " TEXT , " + TAG_PAGER + " TEXT);");
-
-            //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
-            db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"
-                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT);");
-
-
-
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // what happens when the database is upgraded
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-
-            onCreate(db);
-
-        }
-
-    }
+    private DbHelper ourHelper;
 
     public SqlHandler(Context c) {
         ourCTX = c;
@@ -89,6 +55,7 @@ public class SqlHandler {
         ourDb = ourHelper.getWritableDatabase();
         return this;
     }
+
     public SqlHandler open_read() throws SQLException {
         ourHelper = new DbHelper(ourCTX);
         ourDb = ourHelper.getReadableDatabase();
@@ -122,6 +89,7 @@ public class SqlHandler {
         ourDb.close();
 
     }
+
     private boolean isAlreadyInserted(String pid) {
 
         Cursor cursor = null;
@@ -138,6 +106,7 @@ public class SqlHandler {
                 cursor.close();
         }
     }
+
     public void FillData2(String pid, String title, String company_name, String closing, String posted_on) {
         open();
 
@@ -147,23 +116,21 @@ public class SqlHandler {
         cv.put(TAG_TITLE, title);
         cv.put(TAG_COMPANY_NAME, company_name);
         cv.put(TAG_CLOSING, closing);
-        cv.put(TAG_Posting,posted_on);
+        cv.put(TAG_Posting, posted_on);
 
 
 
         if (!isAlreadyInserted(pid)){
-            long insert=ourDb.insert(TABLE_NAME_Learn, null, cv);
+            long insert = ourDb.insert(TABLE_NAME, null, cv);
             Log.e("DB", "insterted"+insert);
         }
         else{
-            long update=ourDb.update(TABLE_NAME_Learn, cv, TAG_PID_learn + " = " + pid, null);
+            long update = ourDb.update(TABLE_NAME, cv, TAG_PID + " = " + pid, null);
             Log.e("DB", "update"+update)	;
         }
         ourDb.close();
 
     }
-
-
 
     public ArrayList<HashMap<String, String>> getData1() {
         // read from Db
@@ -201,8 +168,6 @@ public class SqlHandler {
         return jobList;
     }
 
-
-
     public void updateData(String pid, String title1, String companyname, String closing1, String background1, String city1, String qualification1 , String responsibilities1 ,String footer1) {
         open();
 
@@ -223,9 +188,6 @@ public class SqlHandler {
             ourDb.update(TABLE_NAME, cv, TAG_PID + " = " + pid, null);
         ourDb.close();
     }
-
-
-
 
     public HashMap<String, String> getData(String pidData) {
         open();
@@ -336,6 +298,7 @@ public class SqlHandler {
         ourDb.close();
 
     }
+
     private boolean isAlreadyInserted1(String pid) {
 
         Cursor cursor = null;
@@ -352,6 +315,7 @@ public class SqlHandler {
                 cursor.close();
         }
     }
+
     public ArrayList<JobItems> getJobDetails(String pid) {
         // read from Db
         ArrayList<JobItems> jobList = new ArrayList<>();
@@ -401,5 +365,36 @@ public class SqlHandler {
         ourDb.close();
 
         return jobList;
+    }
+
+    private static class DbHelper extends SQLiteOpenHelper {
+
+        public DbHelper(Context context) {
+            super(context, DATBASE_NAME, null, DATABASE_VERSION);
+
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            // create the database using SQL
+            db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT ," + TAG_PID + " TEXT ,"
+                    + TAG_TITLE + " TEXT , " + TAG_COMPANY_NAME + " TEXT , " + TAG_CLOSING + " TEXT , " + TAG_city + " TEXT , " + TAG_footer + " TEXT , " + TAG_PAGER + " TEXT ," + TAG_Posting + " TEXT);");
+
+            //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
+            db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"
+                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_Posting + " TEXT);");
+
+
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            // what happens when the database is upgraded
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+            onCreate(db);
+
+        }
+
     }
 }

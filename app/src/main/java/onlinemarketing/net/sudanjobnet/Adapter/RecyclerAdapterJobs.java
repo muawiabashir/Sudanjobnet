@@ -1,35 +1,22 @@
 package onlinemarketing.net.sudanjobnet.Adapter;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
-import com.github.javiersantos.materialstyleddialogs.enums.Style;
-
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
 import org.joda.time.format.DateTimeFormat;
@@ -37,11 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import onlinemarketing.net.sudanjobnet.Fragment.Fragment_Job_Details;
@@ -49,24 +32,19 @@ import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 
 /**
  * Created by muawia.ibrahim on 1/11/2016.
  */
 public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ImageLoader imageLoader;
-
     private static ArrayList<JobItems> items;
     private static Context context;
     private static OnItemClick onItemClick;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
-
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-
+    private ImageLoader imageLoader;
     private boolean isLoading;
     private Activity activity;
 
@@ -76,10 +54,6 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
     private OnLoadMoreListener onLoadMoreListener;
 
     private boolean isMoreLoading = true;
-
-    public interface OnLoadMoreListener {
-        void onLoadMore();
-    }
 
     public RecyclerAdapterJobs(ArrayList<JobItems> items, Context context) {
         RecyclerAdapterJobs.context = context;
@@ -115,16 +89,25 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 
         String closing_date = jobItems.getClosing();
         DateTime c_date = fmt.parseDateTime(closing_date);
-
-
+        String posted_on = jobItems.getPosted_on();
+        String posted_date = posted_on.toString();
         DateTime today = new DateTime();
 
-      //  Period period = new Period(today, c_date);
+        //  Period period = new Period(today, c_date);
         Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
         ListItemViewHolder.time_ago.setText(days.getDays() + " Day(s) Remain");
+        DateTimeFormatter fmt1 = DateTimeFormat.forPattern("dd MMMM yyyy");
+        DateTime posted = fmt1.parseDateTime(posted_date);
+
+
+        if (posted == today) {
+            ListItemViewHolder.posted_on.setVisibility(View.VISIBLE);
+        } else {
+            ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
+        }
         if (days.getDays() == 0) {
-      //ListItemViewHolder.title.setHighlightColor(Color.MAGENTA);
+            //ListItemViewHolder.title.setHighlightColor(Color.MAGENTA);
             Period period = new Period(c_date, today, PeriodType.dayTime());
 
             PeriodFormatter formatter = new PeriodFormatterBuilder()
@@ -134,19 +117,46 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 //                    .appendSeconds().appendSuffix(" second ", " seconds ")
                     .toFormatter();
             ListItemViewHolder.time_ago.setText("Today is the Last day");
-            ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context,R.color.colorAccent));
+            //  ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context,R.color.colorAccent));
         }
     }
-
 
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    public void setOnItemClickListener(OnItemClick onItemClick) {
+        RecyclerAdapterJobs.onItemClick = onItemClick;
+
+    }
+
+    public void setFilter(List<JobItems> jobItemses) {
+        items = new ArrayList<>();
+        items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
+        this.onLoadMoreListener = mOnLoadMoreListener;
+    }
+
+    public void setLoaded() {
+        isLoading = false;
+    }
+
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
+
+    public interface OnItemClick {
+        void OnClick(Object objet, int position);
+    }
+
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
         TextView pid, title, company_name, closing, time_ago;
-        ImageView clogo;
+        ImageView clogo, posted_on;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
@@ -156,6 +166,7 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
             closing = itemView.findViewById(R.id.closing);
             clogo = itemView.findViewById(R.id.clogo);
             time_ago = itemView.findViewById(R.id.mago);
+            posted_on = itemView.findViewById(R.id.btn_new);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -187,27 +198,6 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-    public interface OnItemClick {
-        void OnClick(Object objet, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClick onItemClick) {
-        RecyclerAdapterJobs.onItemClick = onItemClick;
-
-    }
-
-
-    public void setFilter(List<JobItems> jobItemses) {
-        items = new ArrayList<>();
-        items.addAll(items);
-        notifyDataSetChanged();
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.onLoadMoreListener = mOnLoadMoreListener;
-    }
-
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
@@ -215,10 +205,6 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
             //    progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
         }
-    }
-
-    public void setLoaded() {
-        isLoading = false;
     }
 
 }

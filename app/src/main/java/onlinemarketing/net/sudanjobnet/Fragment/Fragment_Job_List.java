@@ -1,29 +1,17 @@
 package onlinemarketing.net.sudanjobnet.Fragment;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +33,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
-import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.joda.time.DateTime;
@@ -54,29 +40,18 @@ import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.TrackHelper;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 import dmax.dialog.SpotsDialog;
-import onlinemarketing.net.sudanjobnet.Activity.NotificationTargetActivity;
 import onlinemarketing.net.sudanjobnet.Activity.Notification_Receiver;
 import onlinemarketing.net.sudanjobnet.Activity.PiwikApp;
-import onlinemarketing.net.sudanjobnet.Adapter.MyDividerItemDecoration;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterJobs;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
@@ -84,18 +59,20 @@ import onlinemarketing.net.sudanjobnet.R;
 import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static java.util.Collections.*;
 
 /**
  * Created by muawia.ibrahim on 1/11/2016.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
+    private static final int LOAD_LIMIT = 10;
+    private static final int LOAD_LIMIT_loadMore = 100;
     String URL = "http://sudanjob.net/appjobs.php?limit=" + LOAD_LIMIT;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    //SqlHandler db;
+    CoordinatorLayout rootLayout;
+    Button mySnackbar;
     private ArrayList<JobItems> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterJobs adapter;
     private LinearLayoutManager mLayoutManager;
@@ -103,16 +80,12 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer, ending;
     private ImageView clogo;
-    private static final int LOAD_LIMIT = 10;
-    private static final int LOAD_LIMIT_loadMore = 100;
     private String lastId = "0"; // this will issued to php page, so no harm make it string
     private LinearLayout linlaHeaderProgress;
     private boolean itShouldLoadMore = true;
     private TextView time_agoe;
-    //SqlHandler db;
-    CoordinatorLayout rootLayout;
-    Button mySnackbar;
-private SqlHandler db;
+    private SqlHandler db;
+
     public Fragment_Job_List() {
 
     }
@@ -158,9 +131,6 @@ private SqlHandler db;
                 firstLoadData();
             }
         });
-
-
-
 
 
         adapter = new RecyclerAdapterJobs(jobItemsArrayList, getActivity());
@@ -214,7 +184,7 @@ private SqlHandler db;
             final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
             dialog.show();
             mSwipeRefreshLayout.setRefreshing(false);
-         //   linlaHeaderProgress.setVisibility(View.VISIBLE);
+            //   linlaHeaderProgress.setVisibility(View.VISIBLE);
 
             itShouldLoadMore = false;
             JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(URL, null,
@@ -226,7 +196,7 @@ private SqlHandler db;
 
                             try {
                                 JSONArray jsonarray = response.getJSONArray("product");
-                          //      linlaHeaderProgress.setVisibility(View.GONE);
+                                //      linlaHeaderProgress.setVisibility(View.GONE);
 
                                 dialog.dismiss();
                                 //calling method to parse json array
@@ -241,7 +211,7 @@ private SqlHandler db;
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-                       //     linlaHeaderProgress.setVisibility(View.GONE);
+                            //     linlaHeaderProgress.setVisibility(View.GONE);
                             itShouldLoadMore = true;
                             dialog.dismiss();
                             mSwipeRefreshLayout.setRefreshing(false);
@@ -259,17 +229,17 @@ private SqlHandler db;
                             } else if (volleyError instanceof TimeoutError) {
                                 message = "Connection TimeOut! Please check your internet connection.";
                             }
-                            Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 
                         }
 
                     }) {
 
             };
-        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        jsonArrayRequest.setShouldCache(true);
+            jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsonArrayRequest.setShouldCache(true);
 
             //Creating request queue
             CustomVolleyRequest.getInstance(getContext()).getRequestQueue().add(jsonArrayRequest);
@@ -307,16 +277,19 @@ private SqlHandler db;
                     // LocalDate today = LocalDate.now();
                     Calendar c1 = Calendar.getInstance();
                     DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
+
                     DateTime c_date = fmt.parseDateTime(closing1);
                     String posted_on = json.getString("posted_on");
                     jobitems.setPosted_on(posted_on);
-                    db.FillData2(pid1,title1,company_name1,closing1,posted_on);
+                    db.FillData2(pid1, title1, company_name1, closing1, posted_on);
+
 
                     DateTime today = new DateTime();
                     int todyint = today.getDayOfMonth();
                     Period period = new Period(today, c_date);
                     adapter.notifyDataSetChanged();
                     Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
+
                     if (days.getDays() == 0) {
                         getTitle(title1);
 //        if (days.getDays()==0 ) {
@@ -398,11 +371,15 @@ private SqlHandler db;
         //Finally initializing our adapter
         //    Toast.makeText(getApplicationContext(),lastId,Toast.LENGTH_LONG).show();
     }
-private void getTitle(String title){
-    Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-    alarmIntent.putExtra("title", title);
-    getContext().sendBroadcast(alarmIntent);
-};
+
+    private void getTitle(String title) {
+        Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
+        alarmIntent.putExtra("title", title);
+        getContext().sendBroadcast(alarmIntent);
+    }
+
+    ;
+
     @Override
     public void OnClick(Object objet, int position) {
         Intent intent = new Intent(getActivity(), Fragment_Job_Details.class);
@@ -496,10 +473,10 @@ private void getTitle(String title){
                 String posted_on = json.getString("posted_on");
                 jobitems.setPosted_on(posted_on);
 
-                db.FillData2(pid1,title1,company_name1,closing1,posted_on);
+                db.FillData2(pid1, title1, company_name1, closing1, posted_on);
 
                 DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
-              //  DateTime posted_no1 = fmt.parseDateTime(posted_on);
+                //  DateTime posted_no1 = fmt.parseDateTime(posted_on);
 
                 DateTime c_date = fmt.parseDateTime(closing1);
                 DateTime today = new DateTime();
@@ -510,7 +487,7 @@ private void getTitle(String title){
 //    posted_New.setVisibility(View.VISIBLE);
 //
 //}
- Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
+                Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
                 if (days.getDays() == 0) {
 //        if (days.getDays()==0 ) {
                     //        Toast.makeText(getActivity(), "today is the last day for :" + "Positions:\n"+title+"\n\n", Toast.LENGTH_LONG).show();
@@ -560,8 +537,8 @@ private void getTitle(String title){
 //
 //                    notificationManager.notify(0, builder.build());
                     Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-                    alarmIntent.putExtra("title",title1);
-               getContext().sendBroadcast(alarmIntent);
+                    alarmIntent.putExtra("title", title1);
+                    getContext().sendBroadcast(alarmIntent);
                 }
                 //db.FillData(pid, title, company_name, closing, logo);
             } catch (JSONException e) {
