@@ -72,7 +72,7 @@
                             android:src="@mipmap/no_image" />
 
                         <TextView
-                            android:id="@+id/title"
+                            android:id="@+id/title10"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

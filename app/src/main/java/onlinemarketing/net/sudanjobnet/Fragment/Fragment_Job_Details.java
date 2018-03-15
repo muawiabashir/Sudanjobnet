@@ -20,12 +20,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.FacebookSdk;
 import com.facebook.share.widget.ShareDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.piwik.sdk.Tracker;
+import org.piwik.sdk.extra.PiwikApplication;
+import org.piwik.sdk.extra.TrackHelper;
 
 import java.util.ArrayList;
 
@@ -93,7 +100,7 @@ public class Fragment_Job_Details extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             JobItems
                     jobItem = (JobItems) getIntent().getSerializableExtra("item");
-           Uri imageUri = Uri.parse(jobItem.getClogo());
+            Uri imageUri = Uri.parse(jobItem.getClogo());
 
             @Override
             public void onClick(View v) {
@@ -103,18 +110,18 @@ public class Fragment_Job_Details extends AppCompatActivity {
 
                 // Add data to the intent, the receiving app will decide
                 // what to do with it.
-                share.putExtra(Intent.EXTRA_SUBJECT, "Job Title: "+jobItem.getTitle());
-                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n\n Click the link below for more information  \n\n\n"+URL_det + jobItem.getPid());
+                share.putExtra(Intent.EXTRA_SUBJECT, "Job Title: " + jobItem.getTitle());
+                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n\n Click the link below for more information  \n\n\n" + URL_det + jobItem.getPid());
                 share.putExtra(Intent.EXTRA_STREAM, imageUri);
 
                 startActivity(Intent.createChooser(share, "Share job with friends !"));
             }
         });
 
-        JobItems jobItem = new JobItems();
+        //   JobItems jobItem = new JobItems();
         // linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         // pid = (TextView) findViewById(R.id.pid);
-        title = findViewById(R.id.title);
+        title = findViewById(R.id.title10);
         company_name = findViewById(R.id.company_name);
         closing = findViewById(R.id.closing);
         city = findViewById(R.id.city_job);
@@ -178,25 +185,39 @@ public class Fragment_Job_Details extends AppCompatActivity {
 //                }
 //            });
         } else {
-            Util
-                    .displayDialog(
-                            getString(R.string.app_name),
-                            getString(R.string.check_connection),
-                            Fragment_Job_Details.this, false);
-            //  JobItems jobItem = new JobItems();
-            jobItem = (JobItems) getIntent().getSerializableExtra("item");
-            // ArrayList<JobItems> jobdb = db.getJobDetails(jobItem.getPid());
-            //   Cursor c =db.getJobDetails(jobItem.getPid());
 
+            new MaterialStyledDialog.Builder(this)
+                    .setTitle("Sudanjob.net")
+                    .setDescription("Please Connect to the internet...\n\n")
+                    .setStyle(Style.HEADER_WITH_TITLE)
+                    .setHeaderColor(R.color.colorAccent)
+                    .withDialogAnimation(true)
+                    .setCancelable(true)
 
-//              title.setText(jobdb.get(3).getTitle());
-            //  company_name.setText(jobdb.get(jobdb1).getCompany_name());
-            //   city.setText(jobdb.get(6).getCity());
-            //   closing.setText(jobdb.get(5).getClosing());
-            //   footer.setText(jobdb.get(7).getFooter());
-            //  title.setText(jobItem1.getTitle());
+                    .setIcon(R.mipmap.icon_sudanjob1)
+
+                    //.setStyle(Style.HEADER_WITH_TITLE)
+                    .withIconAnimation(true)
+                    .show();
+            JobItems jobItemdetails = new JobItems();
+            jobItemdetails = (JobItems) getIntent().getSerializableExtra("item");
+            ArrayList<JobItems> jobdb = db.getJobDetails(jobItemdetails.getPid());
+
+            //   Cursor c = (Cursor) db.getJobDetails(jobItem.getPid());
+
+            for (JobItems cn : jobdb) {
+                title.setText(cn.getTitle().toString());
+                company_name.setText(cn.getCompany_name());
+                city.setText(cn.getCity());
+                closing.setText(cn.getClosing());
+                footer.setText(Html.fromHtml(cn.getFooter()));
+                Glide.with(this).load(cn.getClogo())
+                        .thumbnail(0.5f)
+                        .apply(new RequestOptions().placeholder(R.mipmap.no_image).error(R.mipmap.no_image))
+                        .into(clogo);
+                //  title.setText(jobdb.get(7).getFooter());
+            }
         }
-
 
     }
 
@@ -254,11 +275,11 @@ public class Fragment_Job_Details extends AppCompatActivity {
                                     imageLoader = CustomVolleyRequest.getInstance(Fragment_Job_Details.this).getImageLoader();
                                     imageLoader.get(jobItem.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
                                     db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
-                                    //  ((PiwikApp)getApplication()).getTracker()
-                                    //       .trackScreenView("Job Details",pid +" "+ titleStr +" "+company_name1);
+//                                      ((PiwikApp)getApplication()).getTracker()
+//                                           .trackScreenView("Job Details",pid +" "+ titleStr +" "+company_name1);
 
-//                                    Tracker tracker = ((PiwikApplication) getApplication()).getTracker();
-//                                    TrackHelper.track().screen("Job Details").title("\"Job Details\",pid +\" \"+ titleStr +\" \"+company_name1").with(tracker);
+                                    Tracker tracker = ((PiwikApplication) getApplication()).getTracker();
+                                    TrackHelper.track().screen("Job Details").title("\"Job Details\",pid +\" \"+ titleStr +\" \"+company_name1").with(tracker);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
