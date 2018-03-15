@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
-import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 import onlinemarketing.net.sudanjobnet.R;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
@@ -39,6 +38,11 @@ import onlinemarketing.net.sudanjobnet.util.Util;
  */
 public class Fragment_go_event_Details extends Activity {
 
+    String URL = "http://learnpage.net/appgoeventdet.php?pid=";
+    String URL_det = "http://learnpage.net/appgoeventdet.php?pid=";
+    //SqlHandler db;
+    Context mContext;
+    Go_event_Items go_event_items = new Go_event_Items();
     private TextView title;
     private TextView company_name;
     private TextView closing;
@@ -47,11 +51,7 @@ public class Fragment_go_event_Details extends Activity {
     private JobItems pid;
     private ImageView clogo;
     private ImageLoader imageLoader;
-    String URL = "http://learnpage.net/appgoeventdet.php?pid=";
-    String URL_det = "http://learnpage.net/appgoeventdet.php?pid=";
-    private ArrayList<LearningItems> jobItemsArrayList = new ArrayList<>();
-    //SqlHandler db;
-    Context mContext;
+    private ArrayList<Go_event_Items> jobItemsArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,8 @@ public class Fragment_go_event_Details extends Activity {
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LearningItems jobItem = new LearningItems();
-                jobItem = (LearningItems) getIntent().getSerializableExtra("item");
+                Go_event_Items jobItem = new Go_event_Items();
+                jobItem = (Go_event_Items) getIntent().getSerializableExtra("item");
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(URL_det + jobItem.getPid()));
                 startActivity(i);
@@ -113,13 +113,6 @@ public class Fragment_go_event_Details extends Activity {
 
     }
 
-
-
-
-
-
-    Go_event_Items go_event_items = new Go_event_Items();
-
     private void getData() {
 
         go_event_items = (Go_event_Items) getIntent().getSerializableExtra("item");
@@ -140,7 +133,7 @@ public class Fragment_go_event_Details extends Activity {
 
                             loading.dismiss();
                             for (int i = 0; i < jsonarray.length(); i++) {
-                                LearningItems learningItems = new LearningItems();
+                                Go_event_Items go_event_items = new Go_event_Items();
                                 JSONObject json = null;
 
                                 try {
@@ -149,39 +142,39 @@ public class Fragment_go_event_Details extends Activity {
                                     json = jsonarray.getJSONObject(i);
 
                                     String pid = json.getString("pid_goevent");
-                                    learningItems.setPid(pid);
+                                    go_event_items.setPid(pid);
                                     String footer1 = json.getString("footer");
-                                    learningItems.setPid(footer1);
+                                    go_event_items.setPid(footer1);
                                     String titleStr = json.getString("title_goevent");
-                                    learningItems.setTitle(titleStr);
+                                    go_event_items.setTitle(titleStr);
                                     String company_name1 = json.getString("company_name_goevent");
-                                    learningItems.setCompany_name(company_name1);
+                                    go_event_items.setCompany_name(company_name1);
                                     String city1 = json.getString("city_goevent");
-                                    learningItems.setCity(city1);
+                                    go_event_items.setCity(city1);
                                     String closing1 = json.getString("closing_goevent");
-                                    learningItems.setClosing(closing1);
+                                    go_event_items.setClosing(closing1);
                                     String footer2 = json.getString("footer_goevent");
-                                    learningItems.setFooter(footer2);
+                                    go_event_items.setFooter(footer2);
                                     String length = json.getString("length_goevent");
-                                    learningItems.setClosing(length);
+                                    go_event_items.setClosing(length);
                                     String duration = json.getString("duration_goevent");
-                                    learningItems.setClosing(duration);
+                                    go_event_items.setClosing(duration);
 
                                    // String footer2 = json.getString("footer");
 
                                   //  jobitems.setFooter(footer2);
                                     // title.setText(jobitems.getTitle());
                                     // company_name.setText(jobitems.getCompany_name());
-                                    title.setText(Html.fromHtml(learningItems.getTitle()));
-                                    company_name.setText(Html.fromHtml(learningItems.getCompany_name()));
+                                    title.setText(Html.fromHtml(go_event_items.getTitle()));
+                                    company_name.setText(Html.fromHtml(go_event_items.getCompany_name()));
 //                                    city.setText(Html.fromHtml(learningItems.getCity()));
-                                    closing.setText(learningItems.getClosing());
-                                    footer.setText(Html.fromHtml(learningItems.getFooter()));
+                                    closing.setText(go_event_items.getClosing());
+                                    footer.setText(Html.fromHtml(go_event_items.getFooter()));
                     //                length1.setText(Html.fromHtml(learningItems.getLength()));
 //                                    duration1.setText(Html.fromHtml(learningItems.getDuration()));
                                     imageLoader = CustomVolleyRequest.getInstance(Fragment_go_event_Details.this).getImageLoader();
 
-                                    imageLoader.get(learningItems.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
+                                    imageLoader.get(go_event_items.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
                                    // imageLoader.get(learningItems.getClogo(), ImageLoader.getImageListener(clogo, R.drawable.ic_launcher, android.R.drawable.ic_dialog_alert));
                                  //   db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
 //                                  ((PiwikApplication)getApplication()).getTracker();
@@ -191,7 +184,7 @@ public class Fragment_go_event_Details extends Activity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                jobItemsArrayList.add(learningItems);
+                                jobItemsArrayList.add(go_event_items);
 
                             }
                             //calling method to parse json array

@@ -35,10 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterFreeHour;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterGo_Event;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
-import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
 import onlinemarketing.net.sudanjobnet.R;
 import onlinemarketing.net.sudanjobnet.util.Util;
@@ -51,16 +49,16 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 public class Fragment_go_event_List extends Fragment implements RecyclerAdapterGo_Event.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
     String URL = "http://learnpage.net/appgoevent.php";
+    ArrayList<Go_event_Items> jobItemsArrayList1;
+    Button mySnackbar;
     private ArrayList<Go_event_Items> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterGo_Event adapter;
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer;
     private ImageView clogo;
-    ArrayList<FreeHourItems> jobItemsArrayList1;
     //SqlHandler db;
     private LinearLayout no_content;
-    Button mySnackbar;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
     private LinearLayout linlaHeaderProgress;
@@ -253,10 +251,10 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
     public void OnClick(Object objet, int position) {
         Intent intent = new Intent(getContext(), Fragment_go_event_Details.class);
 
-        FreeHourItems item1 = new FreeHourItems();
+        Go_event_Items item1 = new Go_event_Items();
 
-        if (objet instanceof FreeHourItems)
-            item1 = (FreeHourItems) objet;
+        if (objet instanceof Go_event_Items)
+            item1 = (Go_event_Items) objet;
 
         intent.putExtra("item", item1);
         intent.putExtra("pid_go_event", item1.getPid());

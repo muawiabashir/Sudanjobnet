@@ -365,9 +365,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 HeaderImage headerImage1 = new HeaderImage();
                 NetworkImageView header_inageview = findViewById(R.id.image_header);
                 imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();
-
-
-                //  imageLoader.get(headerImage.getHeader(), ImageLoader.getImageListener(header, R.drawable.photo, R.drawable.photo));
+//                Glide.with(this).load(header)
+//                        .thumbnail(0.5f)
+//
+//                        .into(header_inageview);
+                imageLoader.get(headerImage.getHeader(), ImageLoader.getImageListener(header_inageview, R.mipmap.no_image, R.mipmap.no_image));
                 header_inageview.setImageUrl(header, imageLoader);
             } catch (JSONException e) {
                 e.printStackTrace();

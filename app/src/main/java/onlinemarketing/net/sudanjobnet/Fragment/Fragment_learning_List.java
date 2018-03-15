@@ -26,12 +26,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,18 +59,18 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 public class Fragment_learning_List extends Fragment implements RecyclerAdapterLearning.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
     String URL = "http://www.learnpage.net/applearn.php";
     SwipeRefreshLayout mSwipeRefreshLayout;
+    ArrayList<LearningItems> jobItemsArrayList1;
+    CoordinatorLayout rootLayout;
+    Button mySnackbar;
     private ArrayList<LearningItems> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterLearning adapter;
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer;
     private ImageView clogo;
-    ArrayList<LearningItems> jobItemsArrayList1;
     //  SqlHandler db;
     private LinearLayout linlaHeaderProgress;
     private LinearLayout no_content;
-    CoordinatorLayout rootLayout;
-    Button mySnackbar;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
 
@@ -126,7 +126,14 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
             public void run() {
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                getData();
+                if (Util.checknetwork(getActivity())) {
+                    getData();
+
+
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                }
             }
         });
         return view;
@@ -229,6 +236,8 @@ dialog.dismiss();
         adapter = new RecyclerAdapterLearning(jobItemsArrayList, getActivity());
         adapter.setOnItemClickListener(this);
         //Adding adapter to recyclerview
+        final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+        dialog.dismiss();
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -275,7 +284,7 @@ dialog.dismiss();
         getData();
       //  linlaHeaderProgress.setVisibility(View.GONE);\
         final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
-        dialog.show();
+        dialog.dismiss();
     }
 
     @Override

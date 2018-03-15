@@ -33,6 +33,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.joda.time.DateTime;
@@ -46,6 +48,7 @@ import org.json.JSONObject;
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.TrackHelper;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -58,8 +61,6 @@ import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
 import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by muawia.ibrahim on 1/11/2016.
@@ -126,9 +127,41 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
                 mSwipeRefreshLayout.setRefreshing(true);
 
-                // Fetching data from server
-//                jobItemsArrayList.clear();
-                firstLoadData();
+                if (Util.checknetwork(getActivity())) {
+                    firstLoadData();
+
+
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    new MaterialStyledDialog.Builder(getActivity())
+                            .setTitle("Sudanjob.net")
+                            .setDescription("Please Connect to the internet...\n\n")
+                            .setStyle(Style.HEADER_WITH_TITLE)
+                            .setHeaderColor(R.color.colorAccent)
+                            .withDialogAnimation(true)
+                            .setCancelable(true)
+
+                            .setIcon(R.mipmap.icon_sudanjob1)
+
+                            //.setStyle(Style.HEADER_WITH_TITLE)
+                            .withIconAnimation(true)
+                            .show();
+                    //  Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                    try {
+                        db.delete_expired_posts();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList<JobItems> jobList = db.getJobData();
+
+
+                    adapter = new RecyclerAdapterJobs(jobList, getActivity());
+                    //  adapter.setOnItemClickListener(this);
+                    //Adding adapter to recyclerview
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+
+                }
             }
         });
 
@@ -197,10 +230,13 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                             try {
                                 JSONArray jsonarray = response.getJSONArray("product");
                                 //      linlaHeaderProgress.setVisibility(View.GONE);
+                                if (jsonarray != null) {
 
-                                dialog.dismiss();
-                                //calling method to parse json array
-                                firstloadData(jsonarray);
+
+                                    dialog.dismiss();
+                                    //calling method to parse json array
+                                    firstloadData(jsonarray);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -229,7 +265,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                             } else if (volleyError instanceof TimeoutError) {
                                 message = "Connection TimeOut! Please check your internet connection.";
                             }
-                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
 
                         }
 
@@ -246,6 +282,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
         } else {
             mSwipeRefreshLayout.setRefreshing(false);
+            final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+            dialog.dismiss();
 //Toast.makeText(getApplicationContext(),"there is no internet please check the connectivity ",Toast.LENGTH_LONG).show();
         }
     }
@@ -281,7 +319,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     DateTime c_date = fmt.parseDateTime(closing1);
                     String posted_on = json.getString("posted_on");
                     jobitems.setPosted_on(posted_on);
-                    db.FillData2(pid1, title1, company_name1, closing1, posted_on);
+                    db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo);
 
 
                     DateTime today = new DateTime();
@@ -473,7 +511,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                 String posted_on = json.getString("posted_on");
                 jobitems.setPosted_on(posted_on);
 
-                db.FillData2(pid1, title1, company_name1, closing1, posted_on);
+                db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo);
 
                 DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
                 //  DateTime posted_no1 = fmt.parseDateTime(posted_on);

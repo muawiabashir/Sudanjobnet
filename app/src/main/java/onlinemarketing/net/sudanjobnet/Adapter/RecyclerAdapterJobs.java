@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -28,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import onlinemarketing.net.sudanjobnet.Fragment.Fragment_Job_Details;
-import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
 
@@ -77,8 +79,14 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 
         JobItems jobItems = items.get(position);
         final ListItemViewHolder ListItemViewHolder = (ListItemViewHolder) holder;
-        imageLoader = CustomVolleyRequest.getInstance(context).getImageLoader();
-        imageLoader.get(jobItems.getClogo(), ImageLoader.getImageListener(ListItemViewHolder.clogo, R.mipmap.no_image, R.mipmap.no_image));
+        Glide.with(context).load(jobItems.getClogo())
+                .thumbnail(0.5f)
+
+                .apply(new RequestOptions().placeholder(R.mipmap.no_image).error(R.mipmap.no_image))
+
+                .into(ListItemViewHolder.clogo);
+//        imageLoader = CustomVolleyRequest.getInstance(context).getImageLoader();
+//        imageLoader.get(jobItems.getClogo(), ImageLoader.getImageListener(ListItemViewHolder.clogo, R.mipmap.no_image, R.mipmap.no_image));
         ListItemViewHolder.title.setText(Html.fromHtml(jobItems.getTitle()));
         ListItemViewHolder.company_name.setText(Html.fromHtml(jobItems.getCompany_name()));
         ListItemViewHolder.closing.setText(jobItems.getClosing());
@@ -90,22 +98,35 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
         String closing_date = jobItems.getClosing();
         DateTime c_date = fmt.parseDateTime(closing_date);
         String posted_on = jobItems.getPosted_on();
-        String posted_date = posted_on.toString();
+        //   DateTime posted = fmt.parseDateTime(posted_on);
         DateTime today = new DateTime();
 
         //  Period period = new Period(today, c_date);
         Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
         ListItemViewHolder.time_ago.setText(days.getDays() + " Day(s) Remain");
-        DateTimeFormatter fmt1 = DateTimeFormat.forPattern("dd MMMM yyyy");
-        DateTime posted = fmt1.parseDateTime(posted_date);
 
 
-        if (posted == today) {
-            ListItemViewHolder.posted_on.setVisibility(View.VISIBLE);
-        } else {
-            ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
-        }
+        //   DateTime posted = DateTime.parse(posted_on);
+
+        // DateTime posted = new DateTime.parse(posted_on);
+
+//        DateTime date1 =null;
+//        Date date2 =null;
+//
+//            date1 =fmt.parseDateTime(posted_on);
+//            date2= new Date();
+//            DateTime dt1 =new DateTime(date1);
+//            DateTime dt2 = new DateTime(date2);
+//            int posted_on1 = Days.daysBetween(date1, dt2).getDays();
+//            if (posted_on1 == 0) {
+////        if (posted.withTimeAtStartOfDay() == today.withTimeAtStartOfDay()) {
+//                ListItemViewHolder.posted_on.setVisibility(View.VISIBLE);
+//            } else {
+//                ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
+//            }
+
+
         if (days.getDays() == 0) {
             //ListItemViewHolder.title.setHighlightColor(Color.MAGENTA);
             Period period = new Period(c_date, today, PeriodType.dayTime());
@@ -117,7 +138,7 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 //                    .appendSeconds().appendSuffix(" second ", " seconds ")
                     .toFormatter();
             ListItemViewHolder.time_ago.setText("Today is the Last day");
-            //  ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context,R.color.colorAccent));
+            ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context, R.color.colorAccent));
         }
     }
 

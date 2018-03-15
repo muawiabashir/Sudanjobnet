@@ -15,9 +15,8 @@ import com.android.volley.toolbox.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import onlinemarketing.net.sudanjobnet.Fragment.Fragment_freehour_Details;
+import onlinemarketing.net.sudanjobnet.Fragment.Fragment_go_event_Details;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
-import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
@@ -27,11 +26,10 @@ import onlinemarketing.net.sudanjobnet.R;
  * Created by muawia.ibrahim on 1/11/2016.
  */
 public class RecyclerAdapterGo_Event extends RecyclerView.Adapter<RecyclerAdapterGo_Event.ListItemViewHolder> {
-    private ImageLoader imageLoader;
-
     private static ArrayList<Go_event_Items> items;
     private static Context context;
     private static OnItemClick onItemClick;
+    private ImageLoader imageLoader;
 
     public RecyclerAdapterGo_Event(ArrayList<Go_event_Items> items, Context context) {
         RecyclerAdapterGo_Event.context = context;
@@ -63,6 +61,26 @@ public class RecyclerAdapterGo_Event extends RecyclerView.Adapter<RecyclerAdapte
         return items.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void setOnItemClickListener(OnItemClick onItemClick) {
+        RecyclerAdapterGo_Event.onItemClick = onItemClick;
+
+    }
+
+    public void setFilter(List<JobItems> jobItemses) {
+        items = new ArrayList<>();
+        items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemClick {
+        void OnClick(Object objet, int position);
+    }
+
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
         TextView pid11, title11, company_name11, closing11;
         ImageView clogo11;
@@ -78,13 +96,13 @@ public class RecyclerAdapterGo_Event extends RecyclerView.Adapter<RecyclerAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, Fragment_freehour_Details.class);
+                    Intent intent = new Intent(context, Fragment_go_event_Details.class);
 
                     Go_event_Items item1 = new Go_event_Items();
 
 
                     Go_event_Items item = items.get(getLayoutPosition());
-                    //   intent.putExtra("item",item);
+                    intent.putExtra("item", item);
                     //context.startActivity(intent);
                     onItemClick.OnClick(item, getLayoutPosition());
                 }
@@ -102,26 +120,5 @@ public class RecyclerAdapterGo_Event extends RecyclerView.Adapter<RecyclerAdapte
 //            title1.setText(jobItems.getTitle());
 //
 //        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public interface OnItemClick {
-        void OnClick(Object objet, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClick onItemClick) {
-        RecyclerAdapterGo_Event.onItemClick = onItemClick;
-
-    }
-
-
-    public void setFilter(List<JobItems> jobItemses) {
-        items = new ArrayList<>();
-        items.addAll(items);
-        notifyDataSetChanged();
     }
 }

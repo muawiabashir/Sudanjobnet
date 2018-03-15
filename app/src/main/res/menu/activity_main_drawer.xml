@@ -35,7 +35,7 @@
 
                 <item
                     android:id="@+id/about_sudanjob1"
-                    android:icon="@mipmap/icon_sudanjob1"
+                    android:icon="@mipmap/ic_launcher_round"
 
                     android:title="About Sudanjob.net"/>
                 <item

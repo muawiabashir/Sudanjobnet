@@ -1,7 +1,5 @@
 package onlinemarketing.net.sudanjobnet.Fragment;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,20 +21,18 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import java.util.ArrayList;
 
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
+import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
 /**
@@ -44,6 +40,14 @@ import onlinemarketing.net.sudanjobnet.util.Util;
  */
 public class Fragment_Job_Details extends AppCompatActivity {
 
+    String URL = "http://sudanjob.net/appjobsdet.php?pid=";
+    String URL_det = "http://www.sudanjob.net/jobview.php?id=";
+    View botomSheet;
+    //SqlHandler db;
+    Context mContext;
+    ShareDialog shareDialog;
+    SqlHandler db;
+    JobItems jobItem = new JobItems();
     private LinearLayout linlaHeaderProgress;
     private TextView title;
     private TextView company_name;
@@ -53,15 +57,15 @@ public class Fragment_Job_Details extends AppCompatActivity {
     private JobItems pid;
     private ImageView clogo;
     private ImageLoader imageLoader;
-    String URL = "http://sudanjob.net/appjobsdet.php?pid=";
-    String URL_det = "http://www.sudanjob.net/jobview.php?id=";
     private BottomSheetBehavior bsheet;
-    View botomSheet;
     private BottomSheetBehavior mBottomSheetBehavior1;
     private ArrayList<JobItems> jobItemsArrayList = new ArrayList<>();
-    //SqlHandler db;
-    Context mContext;
-    ShareDialog shareDialog;
+
+
+    // title.setText(jobItem.getTitle());
+    //company_name.setText(jobItem.getCompany_name());
+    // closing.setText(jobItem.getClosing());
+    //    footer.setText(jobItem.getFooter());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +134,7 @@ public class Fragment_Job_Details extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        // db = new SqlHandler(this);
+        db = new SqlHandler(this);
 
         if (Util.checknetwork(this)) {
             getData();
@@ -196,15 +200,6 @@ public class Fragment_Job_Details extends AppCompatActivity {
 
     }
 
-
-    // title.setText(jobItem.getTitle());
-    //company_name.setText(jobItem.getCompany_name());
-    // closing.setText(jobItem.getClosing());
-    //    footer.setText(jobItem.getFooter());
-
-
-    JobItems jobItem = new JobItems();
-
     private void getData() {
 
         jobItem = (JobItems) getIntent().getSerializableExtra("item");
@@ -258,7 +253,7 @@ public class Fragment_Job_Details extends AppCompatActivity {
                                     footer.setText(Html.fromHtml(jobitems.getFooter()));
                                     imageLoader = CustomVolleyRequest.getInstance(Fragment_Job_Details.this).getImageLoader();
                                     imageLoader.get(jobItem.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
-                                    //     db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
+                                    db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
                                     //  ((PiwikApp)getApplication()).getTracker()
                                     //       .trackScreenView("Job Details",pid +" "+ titleStr +" "+company_name1);
 
