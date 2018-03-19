@@ -8,7 +8,7 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
-
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:textColor">@color/primary_text</item>
@@ -19,6 +19,12 @@
     <style name="MyButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/primary</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+
+        <item name="spinBars">true</item>
     </style>
     <style name="progress_dialog" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>

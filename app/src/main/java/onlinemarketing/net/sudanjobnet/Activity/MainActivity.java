@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -85,11 +86,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setHomeButtonEnabled(true);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-       // setupTabIcons();
+        // setupTabIcons();
     }
 
     private void setupToolbar() {
@@ -144,14 +146,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-  private void setupTabIcons(){
+    private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-      tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-      tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-      tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-  }
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+    }
 
-    public void check_4_Updates(){
+    public void check_4_Updates() {
         AppUpdater appUpdater = new AppUpdater(this);
         appUpdater.start();
         new AppUpdater(this)
@@ -265,8 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             i.setData(Uri.parse("http://sudanjob.net/faqs.php"));
             startActivity(i);
 
-        }
-        else if (id == R.id.sign_up) {
+        } else if (id == R.id.sign_up) {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse("http://sudanjob.net/register.php"));
             startActivity(i);
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         try {
                             JSONArray jsonarray = response.getJSONArray("apphead");
-          //                  progressBar.setVisibility(View.GONE);
+                            //                  progressBar.setVisibility(View.GONE);
                             header_progress.setVisibility(View.GONE);
                             //calling method to parse json array
                             parseData1(jsonarray);
@@ -349,7 +350,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // requestQueue.add(jsonArrayRequest);
 
     }
-//
+
+    //
 //    //This method will parse json data
     private void parseData1(JSONArray array) {
         for (int i = 0; i < array.length(); i++) {
@@ -378,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 //
-  }
+    }
 
     @Override
     public void onBackPressed() {
@@ -389,14 +391,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.doubleBackToExitPressedOnce = true;
         CustomDialogClass cdd = new CustomDialogClass(MainActivity.this);
-         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
         cdd.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation; //style id
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -406,6 +408,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         // .... other stuff in my onResume ....
         this.doubleBackToExitPressedOnce = false;
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
