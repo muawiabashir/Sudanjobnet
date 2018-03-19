@@ -129,7 +129,12 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
                 if (Util.checknetwork(getActivity())) {
                     firstLoadData();
-
+                    try {
+                        db.delete_expired_posts();
+                        Log.v("recorded", "recorded delete");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
                     mSwipeRefreshLayout.setRefreshing(false);
@@ -149,6 +154,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     //  Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
                     try {
                         db.delete_expired_posts();
+                        Log.v("recorded", "recorded delete");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -189,6 +195,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                         // we must check if itShouldLoadMore variable is true [unlocked]
                         if (itShouldLoadMore) {
                             loadMore();
+
                         }
                     }
 

@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.PiwikApplication;
 import org.piwik.sdk.extra.TrackHelper;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
@@ -145,6 +147,11 @@ public class Fragment_Job_Details extends AppCompatActivity {
 
         if (Util.checknetwork(this)) {
             getData();
+            try {
+                db.delete_expired_posts();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 //            Button whatsapp = (Button) bottomSheetDialog.findViewById(R.id.whatsapp);
 //            whatsapp.setOnClickListener(new View.OnClickListener() {
 //                JobItems
@@ -206,12 +213,13 @@ public class Fragment_Job_Details extends AppCompatActivity {
             //   Cursor c = (Cursor) db.getJobDetails(jobItem.getPid());
 
             for (JobItems cn : jobdb) {
-                title.setText(cn.getTitle().toString());
-                company_name.setText(cn.getCompany_name());
+                Log.v("Title info offline", "Title info offline : " + getTitle());
+                title.setText(jobItemdetails.getTitle());
+                company_name.setText(jobItemdetails.getCompany_name());
                 city.setText(cn.getCity());
-                closing.setText(cn.getClosing());
+                closing.setText(jobItemdetails.getClosing());
                 footer.setText(Html.fromHtml(cn.getFooter()));
-                Glide.with(this).load(cn.getClogo())
+                Glide.with(this).load(jobItemdetails.getClogo())
                         .thumbnail(0.5f)
                         .apply(new RequestOptions().placeholder(R.mipmap.no_image).error(R.mipmap.no_image))
                         .into(clogo);

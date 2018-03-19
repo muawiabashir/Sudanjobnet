@@ -371,29 +371,22 @@ public class SqlHandler {
     public void delete_expired_posts() throws ParseException {
         open();
         int rangeInDays = -1;
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-//        Calendar calObj = Calendar.getInstance();
-//        String currentDate = dateFormat.format(calObj.getTime());
-//        Date c_date = dateFormat.parse(currentDate);
+        DateFormat dateFormat = new SimpleDateFormat("yyyymmdd");
+        Calendar calObj = Calendar.getInstance();
+        String currentDate = dateFormat.format(calObj.getTime());
+        //  DateTime c_date = dateFormat.parse(currentDate);
         Calendar range = Calendar.getInstance();
+
         range.add(Calendar.DAY_OF_MONTH, rangeInDays);
-        Log.v("current date", String.valueOf(range.getTime()));
-
-        long delete_expired_posts1 = ourDb.delete(TABLE_NAME, TAG_CLOSING + " < '" + dateFormat.format(range.getTime()) + "'", null);
-
-        Log.v("DB", "posts deleted : " + delete_expired_posts1);
+        Log.v("current date", "date('now')");
+        String selection = " date(" + TAG_CLOSING + ")" + "<" + "date('now')";
+        long delete_expired_posts1 = ourDb.delete(TABLE_NAME, selection, null);
+        // long delete_expired_posts1 = ourDb.delete(TABLE_NAME, TAG_CLOSING  +"<" + "'currentDate'",null);
+        Log.v("DB", "expired posts deleted : " + delete_expired_posts1);
         close();
-//        int rangeInDays = -2;
-//
-//        DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        Calendar range = Calendar.getInstance();
-//        range.add(Calendar.DAY_OF_MONTH, rangeInDays);
-//
-//        int numDeleted =
-//                mDatabase.delete(DATABASE_TABLE, "time_added" + " < '"
-//                        + dateFormat.format(range.getTime()) + "'", null);
+
     }
+
 
     private static class DbHelper extends SQLiteOpenHelper {
 
