@@ -2,6 +2,7 @@ package onlinemarketing.net.sudanjobnet.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -53,12 +54,21 @@ import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.HeaderImage;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
+import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String TAG_TITLE = "title";
+    public static final String TAG_COMPANY_NAME = "company_name";
+    public static final String TAG_CLOSING = "closing";
+    public static final String TAG_DATE_LINE = "dateline";
+    public static final String TAG_Posting = "posted_on";
+    public static final String TAG_PID = "pid";
+    public static final String ID = "_id";
     String HeaderURL = "http://www.sudanjob.net/apphead.php";
     NavigationView navigationView = null;
     boolean doubleBackToExitPressedOnce = false;
+    private SqlHandler db;
     private TabLayout tabLayout;
     private ImageLoader imageLoader;
     private Toolbar toolbar;
@@ -99,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
+        getClosing_posts_Sent2BroadCast();
         navigationView = findViewById(R.id.nav_view);
         header_progress = findViewById(R.id.header_progress);
 
@@ -118,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         check_4_Updates();
         NetworkImageView header_inageview = findViewById(R.id.image_header);
         header_inageview.setImageResource(R.drawable.appheader);
+
 
 
     }
@@ -416,6 +427,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void getClosing_posts_Sent2BroadCast() {
+        SqlHandler db;
+        db = new SqlHandler(this);
+        String DB_TITLE, DB_COMPAN_NAME, DB_PID;
+
+        db.open();
+        Cursor cr = db.getToDay_ClosedPost();
+        if (cr != null && cr.getCount() != 0) {
+
+
+            cr.moveToFirst();
+
+
+            int id = cr.getColumnIndex(ID);
+            int pid = cr.getColumnIndex(TAG_PID);
+            int title = cr.getColumnIndex(TAG_TITLE);
+            int company_name = cr.getColumnIndex(TAG_COMPANY_NAME);
+            int closing = cr.getColumnIndex(TAG_CLOSING);
+            DB_TITLE = cr.getString(title);
+            DB_COMPAN_NAME = cr.getString(company_name);
+
+            Intent alarmIntent = new Intent(MainActivity.this, Notification_Receiver.class);
+
+            alarmIntent.putExtra("title", DB_TITLE);
+            alarmIntent.putExtra("company", DB_COMPAN_NAME);
+            this.sendBroadcast(alarmIntent);
+            cr.moveToNext();
+        }
+
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -446,4 +488,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return mFragmentTitleList.get(position);
         }
     }
+
+
 }

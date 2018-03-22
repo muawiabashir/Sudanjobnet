@@ -56,7 +56,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
-import onlinemarketing.net.sudanjobnet.Activity.Notification_Receiver;
 import onlinemarketing.net.sudanjobnet.Activity.PiwikApp;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterJobs;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
@@ -119,6 +118,10 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+
+
+        db.open();
+
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -339,7 +342,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
                     if (days.getDays() == 0) {
-                        getTitle(title1);
+                        //     getTitle(title1);
 //        if (days.getDays()==0 ) {
                         //        Toast.makeText(getActivity(), "today is the last day for :" + "Positions:\n"+title+"\n\n", Toast.LENGTH_LONG).show();
 //                    new MaterialStyledDialog.Builder(getActivity())
@@ -416,15 +419,17 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
         }
 
+
         //Finally initializing our adapter
         //    Toast.makeText(getApplicationContext(),lastId,Toast.LENGTH_LONG).show();
     }
 
-    private void getTitle(String title) {
-        Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-        alarmIntent.putExtra("title", title);
-        getContext().sendBroadcast(alarmIntent);
-    }
+    // private void getTitle(String title) {
+
+    //   Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
+    // alarmIntent.putExtra(Intent.EXTRA_TEXT, title);
+    //getContext().sendBroadcast(alarmIntent);
+    // }
 
     ;
 
@@ -585,9 +590,9 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 //                            .setAutoCancel(true);
 //
 //                    notificationManager.notify(0, builder.build());
-                    Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-                    alarmIntent.putExtra("title", title1);
-                    getContext().sendBroadcast(alarmIntent);
+                    //      Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
+                    //    alarmIntent.putExtra("title", title1);
+                    //  getContext().sendBroadcast(alarmIntent);
                 }
                 //db.FillData(pid, title, company_name, closing, logo);
             } catch (JSONException e) {

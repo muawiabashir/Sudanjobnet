@@ -4,17 +4,14 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
-import onlinemarketing.net.sudanjobnet.Fragment.Fragment_Job_List;
 import onlinemarketing.net.sudanjobnet.R;
 
 /**
@@ -34,7 +31,7 @@ public class Notification_Receiver extends BroadcastReceiver {
         PendingIntent pi = PendingIntent.getActivity(context,
                 0 /* Request code */,
                 intent1,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -47,7 +44,8 @@ public class Notification_Receiver extends BroadcastReceiver {
             builder = new NotificationCompat.Builder(context);
         }
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.activity_notification);
-        contentView.setTextViewText(R.id.title05, "Last day for the following Positions:" + intent.getExtras().getString("title") + "\n\n");
+        contentView.setTextViewText(R.id.companTXT, intent.getExtras().getString("company"));
+        contentView.setTextViewText(R.id.title_notif, (CharSequence) intent.getSerializableExtra("title"));
         builder = builder
                 .setSmallIcon(R.mipmap.icon_sudanjob1)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))

@@ -407,6 +407,50 @@ public class SqlHandler {
         }
         return s;
     }
+
+    public ArrayList<JobItems> getDateLinePOSTs() {
+        // read from Db
+        ArrayList<JobItems> jobList = new ArrayList<>();
+        open();
+        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME + " ORDER BY " + TAG_PID + " DESC", null);
+        int id = c.getColumnIndex(ID);
+        int pid = c.getColumnIndex(TAG_PID);
+        int title = c.getColumnIndex(TAG_TITLE);
+        int company_name = c.getColumnIndex(TAG_COMPANY_NAME);
+        int closing = c.getColumnIndex(TAG_CLOSING);
+        int clogo = c.getColumnIndex(TAG_PAGER);
+        int pager = c.getColumnIndex(TAG_PAGER);
+
+        Log.e("DB", "cusror count" + c.getCount());
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                JobItems jobItems = new JobItems();
+                jobItems.setPid(c.getString(pid));
+                jobItems.setTitle(c.getString(title));
+                jobItems.setCompany_name(c.getString(company_name));
+
+                jobList.add(jobItems);
+                c.moveToNext();
+            }
+        }
+
+        if (c != null)
+            c.close();
+
+        ourDb.close();
+
+        return jobList;
+    }
+
+    public Cursor getToDay_ClosedPost() {
+        open();
+        String selection = TAG_DATE_LINE + "<=" + "date('now','0 day')";
+        String[] coloumns = {TAG_TITLE, TAG_COMPANY_NAME, TAG_DATE_LINE};
+        Cursor cr = ourDb.query(TABLE_NAME, coloumns, selection, null, null, null, null);
+        return cr;
+    }
+
     private static class DbHelper extends SQLiteOpenHelper {
 
         public DbHelper(Context context) {
