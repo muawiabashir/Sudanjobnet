@@ -192,6 +192,8 @@ dialog.dismiss();
             snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
             snackbar.setActionTextColor(Color.WHITE);
             snackbar.show();
+            final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+            dialog.dismiss();
         }
         //Adding request to the queue
         // requestQueue.add(jsonArrayRequest);
@@ -222,7 +224,7 @@ dialog.dismiss();
                     jobitems.setCompany_name(company_name);
                     String closing = json.getString("closing_learn");
                     jobitems.setClosing(closing);
-                    //  db.FillData(pid, title, company_name, closing, logo);
+                    // db.FillData(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

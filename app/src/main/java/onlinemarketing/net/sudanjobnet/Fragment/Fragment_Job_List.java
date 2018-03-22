@@ -49,8 +49,11 @@ import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.TrackHelper;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
 import onlinemarketing.net.sudanjobnet.Activity.Notification_Receiver;
@@ -326,7 +329,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     DateTime c_date = fmt.parseDateTime(closing1);
                     String posted_on = json.getString("posted_on");
                     jobitems.setPosted_on(posted_on);
-                    db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo);
+                    db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo, ConvertDate(closing1));
 
 
                     DateTime today = new DateTime();
@@ -518,13 +521,14 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                 String posted_on = json.getString("posted_on");
                 jobitems.setPosted_on(posted_on);
 
-                db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo);
+                db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo, ConvertDate(closing1));
 
                 DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
                 //  DateTime posted_no1 = fmt.parseDateTime(posted_on);
 
                 DateTime c_date = fmt.parseDateTime(closing1);
                 DateTime today = new DateTime();
+                Log.v("new date format", String.valueOf(c_date));
                 int todyint = today.getDayOfMonth();
                 Period period = new Period(today, c_date);
 //if (posted_no1==today){
@@ -606,5 +610,20 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         jobItemsArrayList.clear();
         firstLoadData();
         linlaHeaderProgress.setVisibility(View.GONE);
+    }
+
+    public String ConvertDate(String date) {
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());  //format of the date which you send as parameter(if the date is like 08-Aug-2016 then use dd-MMM-yyyy)
+        String s = "";
+        try {
+            Date dt = sdf.parse(date);
+            sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            s = sdf.format(dt);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 }

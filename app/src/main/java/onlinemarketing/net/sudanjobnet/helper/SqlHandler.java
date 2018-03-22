@@ -17,7 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 
@@ -39,6 +41,7 @@ public class SqlHandler {
     public static final String TAG_TITLE = "title";
     public static final String TAG_COMPANY_NAME = "company_name";
     public static final String TAG_CLOSING = "closing";
+    public static final String TAG_DATE_LINE = "dateline";
     public static final String TAG_Posting = "posted_on";
     public static final String TAG_BACKGROUND = "background";
     public static final String TAG_PAGER = "logo";
@@ -110,7 +113,7 @@ public class SqlHandler {
         }
     }
 
-    public void FillData2(String pid, String title, String company_name, String closing, String posted_on, String clog) {
+    public void FillData2(String pid, String title, String company_name, String closing, String posted_on, String clog, String Closing2) {
         open();
 
         ContentValues cv = new ContentValues();
@@ -121,6 +124,7 @@ public class SqlHandler {
         cv.put(TAG_CLOSING, closing);
         cv.put(TAG_Posting, posted_on);
         cv.put(TAG_PAGER, clog);
+        cv.put(TAG_DATE_LINE, Closing2);
 
 
         if (!isAlreadyInserted(pid)) {
@@ -379,7 +383,8 @@ public class SqlHandler {
 
         range.add(Calendar.DAY_OF_MONTH, rangeInDays);
         Log.v("current date", "date('now')");
-        String selection = " date(" + TAG_CLOSING + ")" + "<" + "date('now')";
+        String selection = TAG_DATE_LINE + "<=" + "date('now','-1 day')";
+        Log.v("selection Sting", selection);
         long delete_expired_posts1 = ourDb.delete(TABLE_NAME, selection, null);
         // long delete_expired_posts1 = ourDb.delete(TABLE_NAME, TAG_CLOSING  +"<" + "'currentDate'",null);
         Log.v("DB", "expired posts deleted : " + delete_expired_posts1);
@@ -387,7 +392,21 @@ public class SqlHandler {
 
     }
 
+    //change datetime to yyyy-mm-dd to sqlite
+    public String ConvertDate(String date) {
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());  //format of the date which you send as parameter(if the date is like 08-Aug-2016 then use dd-MMM-yyyy)
+        String s = "";
+        try {
+            Date dt = sdf.parse(date);
+            sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            s = sdf.format(dt);
 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
     private static class DbHelper extends SQLiteOpenHelper {
 
         public DbHelper(Context context) {
@@ -399,7 +418,7 @@ public class SqlHandler {
         public void onCreate(SQLiteDatabase db) {
             // create the database using SQL
             db.execSQL("CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT ," + TAG_PID + " TEXT ,"
-                    + TAG_TITLE + " TEXT , " + TAG_COMPANY_NAME + " TEXT , " + TAG_CLOSING + " TEXT , " + TAG_city + " TEXT , " + TAG_footer + " TEXT , " + TAG_PAGER + " BLOB ," + TAG_Posting + " TEXT);");
+                    + TAG_TITLE + " TEXT , " + TAG_COMPANY_NAME + " TEXT , " + TAG_CLOSING + " TEXT , " + TAG_city + " TEXT , " + TAG_footer + " TEXT , " + TAG_DATE_LINE + " TEXT ," + TAG_PAGER + " BLOB ," + TAG_Posting + " TEXT);");
 
             //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
             db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"

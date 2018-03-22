@@ -72,7 +72,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="bottom"
                     app:tabIndicatorColor="@color/colorAccent"
-                    app:tabTextAppearance="@style/TabTextAppearance" />
+                    app:tabTextAppearance="@style/TabTextAppearance"
+                    app:tabTextColor="@color/colorAccent" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
