@@ -40,16 +40,16 @@
                     android:title="About Sudanjob.net"/>
                 <item
                     android:id="@+id/about_learn1"
-                    android:icon="@drawable/ic_action_post"
+                    android:icon="@mipmap/ic_launcher_round"
 
                     android:title="About Learn"/>
                 <item
                     android:id="@+id/about_freehoure1"
-                    android:icon="@drawable/ic_workshop"
+                    android:icon="@mipmap/ic_free_hour"
                     android:title="About FreeHour"/>
                 <item
                     android:id="@+id/about_go_event1"
-                    android:icon="@drawable/ic_workshop"
+                    android:icon="@mipmap/ic_go_event"
                     android:title="About Go Event"/>
             </group>
 

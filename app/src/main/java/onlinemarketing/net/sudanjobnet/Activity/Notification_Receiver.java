@@ -51,6 +51,8 @@ public class Notification_Receiver extends BroadcastReceiver {
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setContentTitle(context.getString(R.string.app_name))
                 .setTicker(context.getString(R.string.hary))
+
+                .setBadgeIconType(R.mipmap.icon_sudanjob1)
                 //.setContentText("Last day for the following Positions:" + intent.getExtras().getString("title") + "\n\n")
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContent(contentView)

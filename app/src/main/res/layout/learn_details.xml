@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/clogo"
+                        android:id="@+id/clogo_learn"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_alignParentLeft="true"
@@ -56,18 +56,18 @@
                         android:contentDescription="TODO" />
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/title_learn"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_toEndOf="@+id/clogo"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/clogo_learn"
 
-                        android:layout_toRightOf="@+id/clogo"
+                        android:layout_toRightOf="@+id/clogo_learn"
                         android:gravity="left"
-
                         android:text="Title"
+                        android:textDirection="anyRtl"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -79,7 +79,7 @@
                     android:background="@color/learn_color" />
 
                 <TextView
-                    android:id="@+id/company_name_txt"
+                    android:id="@+id/company_name_txt_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/divider"
@@ -89,60 +89,60 @@
                     />
 
                 <TextView
-                    android:id="@+id/company_name"
+                    android:id="@+id/company_name_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/closing"
-                    android:layout_alignStart="@+id/closing"
+                    android:layout_alignLeft="@+id/closing_learning"
+                    android:layout_alignStart="@+id/closing_learning"
                     android:layout_below="@+id/header"
                     android:gravity="right"
-                    android:text="Company Name" />
+                    android:textDirection="anyRtl" />
 
                 <TextView
-                    android:id="@+id/closingtxt"
+                    android:id="@+id/closingtxt_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/company_name_txt"
+                    android:layout_below="@+id/company_name_txt_learn"
                     android:text="Closing:"
 
                     />
 
                 <TextView
-                    android:id="@+id/closing"
+                    android:id="@+id/closing_learning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/citytxt"
+                    android:layout_above="@+id/citytxt_learn"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/citytxt"
-                    android:layout_toRightOf="@+id/citytxt"
+                    android:layout_toEndOf="@+id/citytxt_learn"
+                    android:layout_toRightOf="@+id/citytxt_learn"
                     android:gravity="right"
-                    android:text="Closing date" />
+                    android:textDirection="anyRtl" />
 
                 <TextView
-                    android:id="@+id/citytxt"
+                    android:id="@+id/citytxt_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/closingtxt"
+                    android:layout_below="@+id/closingtxt_learn"
                     android:text="Length:"
 
                     />
 
                 <TextView
-                    android:id="@+id/length"
+                    android:id="@+id/length_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/closing"
+                    android:layout_below="@+id/closing_learning"
                     android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@+id/citytxt"
-                    android:layout_toRightOf="@+id/citytxt"
-                    android:text="length" />
+                    android:layout_toEndOf="@+id/citytxt_learn"
+                    android:layout_toRightOf="@+id/citytxt_learn"
+                    android:textDirection="anyRtl" />
 
                 <TextView
-                    android:id="@+id/duration"
+                    android:id="@+id/duration_learn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/length"
+                    android:layout_below="@+id/length_learn"
                     android:text="Duration:"
 
                     />
@@ -150,11 +150,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/length"
+                    android:layout_below="@+id/length_learn"
                     android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@+id/duration"
-                    android:layout_toRightOf="@+id/duration"
-                    android:text="Duration" />
+                    android:layout_toEndOf="@+id/duration_learn"
+                    android:layout_toRightOf="@+id/duration_learn"
+                    android:textDirection="anyRtl" />
 
                 <TextView
                     android:id="@+id/pid"
@@ -197,11 +197,12 @@
                         android:paddingBottom="5dp">
 
                         <TextView
-                            android:id="@+id/footer"
+                            android:id="@+id/footer_learn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Job Description" />
+                            android:text="Job Description"
+                            android:textDirection="anyRtl" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
             </RelativeLayout>
@@ -211,7 +212,7 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/apply"
+        android:id="@+id/apply_learn"
         style="?android:attr/buttonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String TAG_Posting = "posted_on";
     public static final String TAG_PID = "pid";
     public static final String ID = "_id";
+    private static final int THREAD_ID = 10000;
     String HeaderURL = "http://www.sudanjob.net/apphead.php";
     NavigationView navigationView = null;
     boolean doubleBackToExitPressedOnce = false;
@@ -94,12 +96,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        TrafficStats.setThreadStatsTag(THREAD_ID);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupViewPager(viewPager);
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(onTabSelectedListener(viewPager));
 //        setupTabIcons();
         setupToolbar();
         navigationView.setItemIconTintList(null);
@@ -129,7 +134,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NetworkImageView header_inageview = findViewById(R.id.image_header);
         header_inageview.setImageResource(R.drawable.appheader);
 
-
+        viewPager.setOffscreenPageLimit(1);
+//       TextView tv2=(TextView)findViewById(R.id.toolbar_title);
+//
+//        Typeface face= Typeface.createFromAsset(getAssets(), "font01.ttf");
+//        tv2.setTypeface(face);
 
     }
 
@@ -140,20 +149,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         collapsingToolbar.setTitleEnabled(false);
     }
 
+
     private void setupViewPager() {
         final ViewPager viewPager = findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        onTabSelectedListener(viewPager);
         // setupTabIcons();
     }
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Sudanjob.net");
+        // getSupportActionBar().setIcon(R.drawable.ic_action_icon_sudanjob);
+        //getSupportActionBar().setIcon(R.drawable.ic_action_icon_sudanjob);
+        //  getSupportActionBar().setIcon(R.mipmap.icon_sudanjob_round);
+        //   getSupportActionBar().setTitle("Sudanjob.net");
+        //  toolbar.setLogo(R.mipmap.icon_sudanjob1);
+        toolbar.setSubtitle("Get A Better Job");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.icon_sudanjob1);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
     }
 
@@ -192,7 +211,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager viewPager) {
 
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        };
+    }
 //    private void setupTabIcons() {
 //        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
 //        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -206,10 +243,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (item.getItemId() == android.R.id.home) {
-            if (drawer.isDrawerOpen(Gravity.LEFT)) {
-                drawer.closeDrawer(Gravity.LEFT);
+            if (drawer.isDrawerOpen(Gravity.START)) {
+                drawer.closeDrawer(Gravity.START);
             } else {
-                drawer.openDrawer(Gravity.LEFT);
+                drawer.openDrawer(Gravity.START);
             }
         }
         int id = item.getItemId();
@@ -432,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         db = new SqlHandler(this);
         String DB_TITLE, DB_COMPAN_NAME, DB_PID;
 
-        db.open();
+//        db.open();
         Cursor cr = db.getToDay_ClosedPost();
         if (cr != null && cr.getCount() != 0) {
 
@@ -455,7 +492,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.sendBroadcast(alarmIntent);
             cr.moveToNext();
         }
-
+        cr.close();
+        db.close();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

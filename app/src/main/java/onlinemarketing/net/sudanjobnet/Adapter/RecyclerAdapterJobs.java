@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -94,13 +93,16 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 
         // LocalDate today = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
+        DateTimeFormatter fmt1 = DateTimeFormat.forPattern("dd MMMM yyyy");
 
         String closing_date = jobItems.getClosing();
         DateTime c_date = fmt.parseDateTime(closing_date);
         String posted_on = jobItems.getPosted_on();
-        //   DateTime posted = fmt.parseDateTime(posted_on);
-        DateTime today = new DateTime();
 
+
+        //   DateTime posted = fmt1.parseDateTime(posted_on);
+        DateTime today = new DateTime();
+//        DateTime dateTime = new DateTime(fmt1.parseDateTime(posted_on));
         //  Period period = new Period(today, c_date);
         Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
@@ -109,23 +111,15 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 
         //   DateTime posted = DateTime.parse(posted_on);
 
-        // DateTime posted = new DateTime.parse(posted_on);
+//        DateTime posted = fmt1.parseDateTime(posted_on);
+        //   SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
 
-//        DateTime date1 =null;
-//        Date date2 =null;
-//
-//            date1 =fmt.parseDateTime(posted_on);
-//            date2= new Date();
-//            DateTime dt1 =new DateTime(date1);
-//            DateTime dt2 = new DateTime(date2);
-//            int posted_on1 = Days.daysBetween(date1, dt2).getDays();
-//            if (posted_on1 == 0) {
-////        if (posted.withTimeAtStartOfDay() == today.withTimeAtStartOfDay()) {
+//          if (dateFormat.parse(posted_on==today.toDate().toString()) {
 //                ListItemViewHolder.posted_on.setVisibility(View.VISIBLE);
-//            } else {
-//                ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
-//            }
-
+//           } else {
+//                 ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
+//             }
+//
 
         if (days.getDays() == 0) {
             //ListItemViewHolder.title.setHighlightColor(Color.MAGENTA);
@@ -138,7 +132,7 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 //                    .appendSeconds().appendSuffix(" second ", " seconds ")
                     .toFormatter();
             ListItemViewHolder.time_ago.setText("Today is the Last day");
-            ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context, R.color.colorAccent));
+            //    ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context, R.color.colorAccent));
         }
     }
 

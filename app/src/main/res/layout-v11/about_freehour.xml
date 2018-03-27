@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog">
+    android:background="@drawable/bg_dialog_free_hour">
 
 
     <LinearLayout
@@ -24,35 +24,38 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient_header_background"
+            android:background="@drawable/gradient_header_background_free"
             android:padding="10dp"
 
             android:text="@string/freehoure"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/free_hour_about" />
         <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:paddingTop="20dp"
+
+
             android:text="@string/freeHours"
-            android:textColor="@color/colorAccent" />
+            android:textColor="#1c4567" />
 
 
         <Button
             android:id="@+id/positive_button"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/bt_dialog_positive"
+            android:layout_width="100dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bt_dialog_positive_free"
             android:text="Close"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -64,7 +67,7 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignTop="@+id/linearLayout"
-        android:background="@drawable/bt_dialog_close"
+        android:background="@drawable/bt_dialog_close_free"
         android:text="X"
         android:textColor="@color/white" />
 

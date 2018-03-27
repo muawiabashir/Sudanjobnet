@@ -26,7 +26,7 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
-
+        <item name="drawableSize">15dp</item>
         <item name="spinBars">true</item>
     </style>
     <style name="MyButton" parent="Theme.AppCompat.Light">

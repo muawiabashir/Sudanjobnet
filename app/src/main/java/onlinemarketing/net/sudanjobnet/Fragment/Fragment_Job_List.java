@@ -33,8 +33,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
-import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.joda.time.DateTime;
@@ -120,8 +118,6 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
 
-        db.open();
-
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -144,20 +140,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
                 } else {
                     mSwipeRefreshLayout.setRefreshing(false);
-                    new MaterialStyledDialog.Builder(getActivity())
-                            .setTitle("Sudanjob.net")
-                            .setDescription("Please Connect to the internet...\n\n")
-                            .setStyle(Style.HEADER_WITH_TITLE)
-                            .setHeaderColor(R.color.colorAccent)
-                            .withDialogAnimation(true)
-                            .setCancelable(true)
 
-                            .setIcon(R.mipmap.icon_sudanjob1)
-
-                            //.setStyle(Style.HEADER_WITH_TITLE)
-                            .withIconAnimation(true)
-                            .show();
-                    //  Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
                     try {
                         db.delete_expired_posts();
                         Log.v("recorded", "recorded delete");
@@ -172,6 +156,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     //Adding adapter to recyclerview
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
+
 
                 }
             }
@@ -342,6 +327,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
                     if (days.getDays() == 0) {
+
                         //     getTitle(title1);
 //        if (days.getDays()==0 ) {
                         //        Toast.makeText(getActivity(), "today is the last day for :" + "Positions:\n"+title+"\n\n", Toast.LENGTH_LONG).show();
@@ -541,6 +527,13 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 //    posted_New.setVisibility(View.VISIBLE);
 //
 //}
+                String Posted_date = ConvertDate(posted_on);
+                DateTimeFormatter fmt1 = DateTimeFormat.forPattern("dd MMMM yyyy");
+                //  DateTime posted_no1 = fmt.parseDateTime(posted_on);
+
+//                DateTime posted_date = fmt.parseDateTime(posted_on);
+//                Days days_posted = Days.daysBetween(today.withTimeAtStartOfDay(), posted_date.withTimeAtStartOfDay());
+//             if (days_posted.t)
                 Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
                 if (days.getDays() == 0) {
 //        if (days.getDays()==0 ) {
@@ -593,11 +586,13 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     //      Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
                     //    alarmIntent.putExtra("title", title1);
                     //  getContext().sendBroadcast(alarmIntent);
+
                 }
                 //db.FillData(pid, title, company_name, closing, logo);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
 
             jobItemsArrayList.add(jobitems);
             //    adapter.notifyItemInserted(jobItemsArrayList.size() - 1);
@@ -606,6 +601,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
             //
         }
         //Finally initializing our adapter
+        //  JobItems jobItems = new JobItems();
+
 
     }
 
@@ -619,7 +616,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 
     public String ConvertDate(String date) {
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());  //format of the date which you send as parameter(if the date is like 08-Aug-2016 then use dd-MMM-yyyy)
+        sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);  //format of the date which you send as parameter(if the date is like 08-Aug-2016 then use dd-MMM-yyyy)
         String s = "";
         try {
             Date dt = sdf.parse(date);

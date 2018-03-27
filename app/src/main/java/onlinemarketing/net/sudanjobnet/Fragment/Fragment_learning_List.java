@@ -49,6 +49,7 @@ import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 import onlinemarketing.net.sudanjobnet.R;
+import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
 
@@ -62,6 +63,7 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
     ArrayList<LearningItems> jobItemsArrayList1;
     CoordinatorLayout rootLayout;
     Button mySnackbar;
+    private SqlHandler db;
     private ArrayList<LearningItems> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterLearning adapter;
     private RecyclerView recyclerView;
@@ -86,6 +88,7 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
         //    db = new SqlHandler(getActivity());
 //        Tracker tracker = ((PiwikApp) getActivity().getApplication()).getTracker();
 //        TrackHelper.track().screen("Learning Pages").title("Learning Pages").with(tracker);
+        db = new SqlHandler(getActivity());
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         linlaHeaderProgress = view.findViewById(R.id.linlaHeaderProgress1);
         no_content = view.findViewById(R.id.no_content1);
@@ -133,6 +136,12 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
                 } else {
                     mSwipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                    ArrayList<LearningItems> LearningList = db.getLearnData();
+                    adapter = new RecyclerAdapterLearning(LearningList, getActivity());
+                    //  adapter.setOnItemClickListener(this);
+                    //Adding adapter to recyclerview
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
                 }
             }
         });
@@ -140,6 +149,7 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
 
 
     }
+
 
     //This method will get data from the web api
     private void getData() {
@@ -192,6 +202,12 @@ dialog.dismiss();
             snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
             snackbar.setActionTextColor(Color.WHITE);
             snackbar.show();
+            ArrayList<LearningItems> jobList = db.getLearnData();
+            adapter = new RecyclerAdapterLearning(jobList, getActivity());
+            //  adapter.setOnItemClickListener(this);
+            //Adding adapter to recyclerview
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
             final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
             dialog.dismiss();
         }
@@ -216,6 +232,7 @@ dialog.dismiss();
                     json = array.getJSONObject(i);
                     String pid = json.getString("pid_learn");
                     jobitems.setPid(pid);
+
                     String logo = json.getString("logo");
                     jobitems.setClogo(logo);
                     String title = json.getString("title_learn");
@@ -224,6 +241,7 @@ dialog.dismiss();
                     jobitems.setCompany_name(company_name);
                     String closing = json.getString("closing_learn");
                     jobitems.setClosing(closing);
+                    db.FillDataLearn(pid, title, company_name, closing, logo);
                     // db.FillData(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();

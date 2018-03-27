@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
+import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 
 
 public class SqlHandler {
@@ -73,24 +74,24 @@ public class SqlHandler {
         ourHelper.close();
     }
 
-    public void FillData(String pid, String title, String company_name, String closing, String pager) {
+    public void FillDataLearn(String pid, String title, String company_name, String closing, String pager) {
         open();
 
         ContentValues cv = new ContentValues();
 
-        cv.put(TAG_PID, pid);
-        cv.put(TAG_TITLE, title);
-        cv.put(TAG_COMPANY_NAME, company_name);
-        cv.put(TAG_CLOSING, closing);
+        cv.put(TAG_PID_learn, pid);
+        cv.put(TAG_TITLE_LEARN, title);
+        cv.put(TAG_COMPANY_NAME_LEARN, company_name);
+        cv.put(TAG_CLOSING_LEARN, closing);
         cv.put(TAG_PAGER, pager);
 
 
-        if (!isAlreadyInserted(pid)) {
-            long insert = ourDb.insert(TABLE_NAME, null, cv);
-            Log.e("DB", "insterted" + insert);
+        if (!isAlreadyInsertedLearn(pid)) {
+            long insert = ourDb.insert(TABLE_NAME_Learn, null, cv);
+            Log.e("DB", "Learning Table insterted" + insert);
         } else {
-            long update = ourDb.update(TABLE_NAME, cv, TAG_PID + " = " + pid, null);
-            Log.e("DB", "update" + update);
+            long update = ourDb.update(TABLE_NAME_Learn, cv, TAG_PID_learn + " = " + pid, null);
+            Log.e("DB", "Learning Table update" + update);
         }
         ourDb.close();
 
@@ -113,6 +114,22 @@ public class SqlHandler {
         }
     }
 
+    private boolean isAlreadyInsertedLearn(String pid) {
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME_Learn + " WHERE " + TAG_PID_learn + " = " + pid;
+            cursor = ourDb.rawQuery(selectQuery, null);
+            return cursor != null && cursor.getCount() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+
+            if (cursor != null)
+                cursor.close();
+        }
+    }
     public void FillData2(String pid, String title, String company_name, String closing, String posted_on, String clog, String Closing2) {
         open();
 
@@ -140,14 +157,14 @@ public class SqlHandler {
 
     public ArrayList<HashMap<String, String>> getData1() {
         // read from Db
-        ArrayList<HashMap<String, String>> jobList = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> LearnList = new ArrayList<HashMap<String, String>>();
         open();
-        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME + " ORDER BY " + TAG_PID + " DESC", null);
+        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME_Learn + " ORDER BY " + TAG_PID_learn + " DESC", null);
         int id = c.getColumnIndex(ID);
-        int pid = c.getColumnIndex(TAG_PID);
-        int title = c.getColumnIndex(TAG_TITLE);
-        int company_name = c.getColumnIndex(TAG_COMPANY_NAME);
-        int closing = c.getColumnIndex(TAG_CLOSING);
+        int pid = c.getColumnIndex(TAG_PID_learn);
+        int title = c.getColumnIndex(TAG_TITLE_LEARN);
+        int company_name = c.getColumnIndex(TAG_COMPANY_NAME_LEARN);
+        int closing = c.getColumnIndex(TAG_CLOSING_LEARN);
         int pager = c.getColumnIndex(TAG_PAGER);
 
         Log.e("DB", "cusror count" + c.getCount());
@@ -156,12 +173,12 @@ public class SqlHandler {
             for (int i = 0; i < c.getCount(); i++) {
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put(ID, "" + c.getInt(id));
-                map.put(TAG_PID, c.getString(pid));
-                map.put(TAG_TITLE, c.getString(title));
-                map.put(TAG_COMPANY_NAME, c.getString(company_name));
-                map.put(TAG_CLOSING, c.getString(closing));
+                map.put(TAG_PID_learn, c.getString(pid));
+                map.put(TAG_TITLE_LEARN, c.getString(title));
+                map.put(TAG_COMPANY_NAME_LEARN, c.getString(company_name));
+                map.put(TAG_CLOSING_LEARN, c.getString(closing));
                 map.put(TAG_PAGER, c.getString(pager));
-                jobList.add(map);
+                LearnList.add(map);
                 c.moveToNext();
             }
         }
@@ -171,7 +188,7 @@ public class SqlHandler {
 
         ourDb.close();
 
-        return jobList;
+        return LearnList;
     }
 
     public void updateData(String pid, String title1, String companyname, String closing1, String background1, String city1, String qualification1, String responsibilities1, String footer1) {
@@ -278,6 +295,53 @@ public class SqlHandler {
         ourDb.close();
 
         return jobList;
+    }
+
+    public ArrayList<LearningItems> getLearnData() {
+        // read from Db
+        ArrayList<LearningItems> LearnList = new ArrayList<>();
+        open();
+        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME_Learn + " ORDER BY " + TAG_PID_learn + " DESC", null);
+        int id = c.getColumnIndex(ID);
+        int pid = c.getColumnIndex(TAG_PID_learn);
+        int title = c.getColumnIndex(TAG_TITLE_LEARN);
+        int company_name = c.getColumnIndex(TAG_COMPANY_NAME_LEARN);
+        int closing = c.getColumnIndex(TAG_CLOSING_LEARN);
+        int clogo = c.getColumnIndex(TAG_PAGER);
+        int pager = c.getColumnIndex(TAG_PAGER);
+
+        Log.e("DB", "cusror count" + c.getCount());
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                LearningItems jobItems = new LearningItems();
+                jobItems.setPid(c.getString(pid));
+                jobItems.setTitle(c.getString(title));
+                jobItems.setCompany_name(c.getString(company_name));
+                jobItems.setClosing(c.getString(closing));
+                jobItems.setClogo(c.getString(clogo));
+                // jobList.add(id, String.valueOf(c.getInt(id)));
+                //  jobList.add(pid, c.getString(pid));
+                //  jobList.add(title, c.getString(title));
+                //  jobList.add(company_name, c.getString(company_name));
+                //  jobList.add(closing, c.getString(closing));
+                //  map.put(ID, "" + c.getInt(id));
+                //  map.put(TAG_PID, c.getString(pid));
+                // map.put(TAG_TITLE, c.getString(title));
+                // map.put(TAG_COMPANY_NAME, c.getString(company_name));
+                // map.put(TAG_CLOSING, c.getString(closing));
+                //   map.put(TAG_PAGER, c.getString(pager));
+                LearnList.add(jobItems);
+                c.moveToNext();
+            }
+        }
+
+        if (c != null)
+            c.close();
+
+        ourDb.close();
+
+        return LearnList;
     }
 
     public void FillDetails(String pid, String title, String company_name, String closing, String city, String footer) {
@@ -448,6 +512,7 @@ public class SqlHandler {
         String selection = TAG_DATE_LINE + "<=" + "date('now','0 day')";
         String[] coloumns = {TAG_TITLE, TAG_COMPANY_NAME, TAG_DATE_LINE};
         Cursor cr = ourDb.query(TABLE_NAME, coloumns, selection, null, null, null, null);
+
         return cr;
     }
 
@@ -466,7 +531,7 @@ public class SqlHandler {
 
             //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
             db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"
-                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_Posting + " TEXT);");
+                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_PAGER + " TEXT);");
 
 
         }

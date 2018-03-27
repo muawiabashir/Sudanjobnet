@@ -23,7 +23,7 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
-
+        <item name="drawableSize">15dp</item>
         <item name="spinBars">true</item>
     </style>
     <style name="progress_dialog" parent="android:Theme.DeviceDefault.Dialog">

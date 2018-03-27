@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog">
+    android:background="@drawable/bg_dialog_go_event">
 
 
     <LinearLayout
@@ -24,13 +24,17 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient_header_background"
+            android:background="@drawable/gradient_header_background_go_event"
             android:padding="10dp"
 
             android:text="@string/go_event"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/go_event_about" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -39,10 +43,10 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:paddingTop="20dp"
+
+
             android:text="@string/goeventabout"
-            android:textColor="@color/colorAccent" />
+            android:textColor="#000" />
 
 
         <Button
@@ -50,9 +54,9 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:background="@drawable/bt_dialog_positive"
+            android:background="@drawable/bt_dialog_positive_go_event"
             android:text="Close"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -64,7 +68,7 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignTop="@+id/linearLayout"
-        android:background="@drawable/bt_dialog_close"
+        android:background="@drawable/bt_dialog_close_go_event"
         android:text="X"
         android:textColor="@color/white" />
 

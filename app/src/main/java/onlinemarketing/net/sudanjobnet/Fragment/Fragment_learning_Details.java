@@ -20,7 +20,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +38,11 @@ import onlinemarketing.net.sudanjobnet.util.Util;
  */
 public class Fragment_learning_Details extends Activity {
 
+    String URL = "http://www.learnpage.net/applearndet.php?pid=";
+    String URL_det = "http://www.learnpage.net/event.php?id=";
+    //SqlHandler db;
+    Context mContext;
+    LearningItems learningItems = new LearningItems();
     private TextView title;
     private TextView company_name;
     private TextView closing;
@@ -47,11 +51,7 @@ public class Fragment_learning_Details extends Activity {
     private JobItems pid;
     private ImageView clogo;
     private ImageLoader imageLoader;
-    String URL = "http://www.learnpage.net/applearndet.php?pid=";
-    String URL_det = "http://www.learnpage.net/event.php?id=";
     private ArrayList<LearningItems> jobItemsArrayList = new ArrayList<>();
-    //SqlHandler db;
-    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +64,16 @@ public class Fragment_learning_Details extends Activity {
 
 
         // pid = (TextView) findViewById(R.id.pid);
-        title = findViewById(R.id.title);
-        company_name = findViewById(R.id.company_name);
-        closing = findViewById(R.id.closing);
+        title = findViewById(R.id.title_learn);
+        company_name = findViewById(R.id.company_name_learn);
+        closing = findViewById(R.id.closing_learning);
        // city = findViewById(R.id.city);
-        footer = findViewById(R.id.footer);
-        clogo = findViewById(R.id.clogo);
-        length1= findViewById(R.id.length);
-        duration1= findViewById(R.id.duration);
+        footer = findViewById(R.id.footer_learn);
+        clogo = findViewById(R.id.clogo_learn);
+        length1 = findViewById(R.id.length_learn);
+        duration1 = findViewById(R.id.duration_learn);
        // db = new SqlHandler(this);
-        FrameLayout apply= findViewById(R.id.apply);
+        FrameLayout apply = findViewById(R.id.apply_learn);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,13 +112,6 @@ public class Fragment_learning_Details extends Activity {
 
 
     }
-
-
-
-
-
-
-    LearningItems learningItems = new LearningItems();
 
     private void getData() {
 

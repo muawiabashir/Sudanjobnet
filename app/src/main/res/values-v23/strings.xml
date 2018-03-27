@@ -2,6 +2,6 @@
 <resources>
     <string name="learn">About Learn</string>
     <string name="learning">Connect to Knowledge, Find Education  LearnPage.net is a bridge connecting students and educational institutions together, you will find all courses and training.</string>
-    <string name="freeHours">FreeHour is one hour knowledge sharing session presented by volunteer experts in various fields.  Be part of the session:  - Select your FreeHour session - Register online - First come first serve (limited chairs)    If you are an expert and want to volunteer please contact us at freehour@learnpage.net      Find sessions in Freehour.learnpage.net</string>
-    <string name="goeventabout">Find conferences and workshops in Sudan.  Be connected at goevent.learnpage.net</string>
+    <string name="freeHours">FreeHour is one hour knowledge sharing session presented by volunteer experts in various fields.  \n Be part of the session: \n - Select your FreeHour session  \n - Register online \n - First come first serve (limited chairs)   \n\n If you are an expert and want to volunteer please contact us at freehour@learnpage.net\n\nFind sessions in \tFreehour.learnpage.net</string>
+    <string name="goeventabout">Find conferences and workshops in Sudan.  Be connected at \tgoevent.learnpage.net</string>
 </resources>

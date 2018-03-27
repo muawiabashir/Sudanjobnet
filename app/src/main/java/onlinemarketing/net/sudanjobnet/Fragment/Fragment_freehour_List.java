@@ -24,12 +24,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,16 +52,16 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 public class Fragment_freehour_List extends Fragment implements RecyclerAdapterFreeHour.OnItemClick, SwipeRefreshLayout.OnRefreshListener {
     SwipeRefreshLayout mSwipeRefreshLayout;
     String URL = "http://www.learnpage.net/appfreehour.php";
+    ArrayList<FreeHourItems> jobItemsArrayList1;
+    Button mySnackbar;
     private ArrayList<FreeHourItems> jobItemsArrayList = new ArrayList<>();
     private RecyclerAdapterFreeHour adapter;
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer;
     private ImageView clogo;
-    ArrayList<FreeHourItems> jobItemsArrayList1;
     //SqlHandler db;
     private LinearLayout no_content;
-    Button mySnackbar;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
     private LinearLayout linlaHeaderProgress;
@@ -118,8 +118,16 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 
                 mSwipeRefreshLayout.setRefreshing(true);
 
-                // Fetching data from server
-                getData();
+                mSwipeRefreshLayout.setRefreshing(true);
+                if (Util.checknetwork(getActivity())) {
+                    getData();
+
+
+                } else {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 //        if (Util.checknetwork(getActivity())) {

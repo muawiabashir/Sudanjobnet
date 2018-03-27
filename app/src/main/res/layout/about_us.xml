@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
 
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
 
         android:layout_marginTop="6dp"
         android:gravity="center_horizontal"
@@ -30,7 +30,10 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@mipmap/icon_sudanjob1" />
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,10 +41,10 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:paddingTop="20dp"
+
+
             android:text="@string/connect_you_to_better_jobs_and_vacancies"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/primary_text" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,31 +55,34 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
 
             android:text="@string/we_connect"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/primary_text" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Android App Version v 1.0.0"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/primary_text" />
         <Button
             android:id="@+id/positive_button"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/bt_dialog_positive"
             android:text="Close"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
 
     <Button
         android:id="@+id/close_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
         android:layout_alignEnd="@+id/linearLayout"
+
+
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignTop="@+id/linearLayout"
+        android:layout_marginTop="2dp"
         android:background="@drawable/bt_dialog_close"
         android:text="X"
         android:textColor="@color/white" />
