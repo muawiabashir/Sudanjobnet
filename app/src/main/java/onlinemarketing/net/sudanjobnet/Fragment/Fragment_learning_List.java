@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
+import onlinemarketing.net.sudanjobnet.Activity.About_Learn;
 import onlinemarketing.net.sudanjobnet.Activity.PiwikApp;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterLearning;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
@@ -143,6 +145,14 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
                 }
+            }
+        });
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_learn);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent about = new Intent(getActivity(), About_Learn.class);
+                startActivity(about);
             }
         });
         return view;

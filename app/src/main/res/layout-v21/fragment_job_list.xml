@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -50,6 +51,22 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/progress_wheel"
             android:scrollbars="vertical" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|right"
+            android:src="@mipmap/icon_sudanjob1"
+            app:backgroundTint="#F9E186"
+
+            app:fabSize="auto"
+            app:useCompatPadding="true"
+            tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

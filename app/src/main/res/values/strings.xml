@@ -35,18 +35,15 @@
 
 
     <string name="we_connect"> We connect you to better jobs.</string>
-    <string name="action_search">Search</string>
     <string name="facebook">Facebook</string>
     <string name="whatsapp">Whatsapp</string>
     <string name="location">Location:</string>
     <string name="closing">Closing:</string>
     <string name="co_org">Co/Org:</string>
-    <string name="details">details</string>
     <string name="image">image</string>
     <string name="apply">Apply</string>
     <string name="hary">Hurry Up </string>
     <string name="share">Share</string>
-    <string name="about">About Sudanjob.net</string>
     <string name="learn">About Learn</string>
     <string name="freehoure">About FreeHoure</string>
     <string name="go_event">About Go Events</string>
@@ -55,7 +52,6 @@
     <string name="goeventabout">Find conferences and workshops in Sudan.  Be connected at \tgoevent.learnpage.net</string>
 
     <!-- navigation drawer item labels  -->
-
 
 
 </resources>

@@ -100,17 +100,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TrafficStats.setThreadStatsTag(THREAD_ID);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        //  toolbar.setLogo(R.mipmap.icon_sudanjob1);
 
+        //   getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+        //  getSupportActionBar().setDisplayShowTitleEnabled(true);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        // getSupportActionBar().setHomeButtonEnabled(true);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(false); //disable "hamburger to arrow" drawable
+        toggle.setHomeAsUpIndicator(R.drawable.ic_action_drawar); //set your own
         toggle.syncState();
 
         getClosing_posts_Sent2BroadCast();
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final CollapsingToolbarLayout collapsingToolbar = findViewById(
                 R.id.collapse_toolbar);
 
-        collapsingToolbar.setTitleEnabled(false);
+
     }
 
 
@@ -169,7 +172,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //  getSupportActionBar().setIcon(R.mipmap.icon_sudanjob_round);
         //   getSupportActionBar().setTitle("Sudanjob.net");
         //  toolbar.setLogo(R.mipmap.icon_sudanjob1);
-        toolbar.setSubtitle("Get A Better Job");
+        //  toolbar.setSubtitle("Get A Better Job");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setLogo(R.mipmap.icon_sudanjob1);
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -243,10 +247,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (item.getItemId() == android.R.id.home) {
-            if (drawer.isDrawerOpen(Gravity.START)) {
-                drawer.closeDrawer(Gravity.START);
+            if (drawer.isDrawerOpen(Gravity.LEFT)) {
+                drawer.closeDrawer(Gravity.LEFT);
             } else {
-                drawer.openDrawer(Gravity.START);
+                drawer.openDrawer(Gravity.LEFT);
             }
         }
         int id = item.getItemId();
@@ -267,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.addFrag(new Fragment_Job_List(), " Jobs");
         adapter.addFrag(new Fragment_learning_List(), " Learn");
         adapter.addFrag(new Fragment_freehour_List(), " FreeHour");
-        adapter.addFrag(new Fragment_go_event_List(), " Go Event");
+        adapter.addFrag(new Fragment_go_event_List(), " Go Events");
         viewPager.setAdapter(adapter);
     }
 
@@ -321,27 +325,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
 
         }
-        if (id == R.id.about_sudanjob1) {
-            Intent about = new Intent(this, About_Us.class);
-            startActivity(about);
+//        if (id == R.id.about_sudanjob1) {
+//            Intent about = new Intent(this, About_Us.class);
+//            startActivity(about);
+//            return true;
+//        }
+//        if (id == R.id.about_freehoure1) {
+//            Intent about = new Intent(this, About_Freehour.class);
+//            startActivity(about);
+//            return true;
+//        }
+//        if (id == R.id.about_go_event1) {
+//            Intent about = new Intent(this, About_Go_Envent.class);
+//            startActivity(about);
+//            return true;
+//        }
+//        if (id == R.id.about_learn1) {
+//            Intent about = new Intent(this, About_Learn.class);
+//            startActivity(about);
+//            return true;
+//        }
+        if (id == R.id.close) {
+            finish();
             return true;
         }
-        if (id == R.id.about_freehoure1) {
-            Intent about = new Intent(this, About_Freehour.class);
-            startActivity(about);
-            return true;
-        }
-        if (id == R.id.about_go_event1) {
-            Intent about = new Intent(this, About_Go_Envent.class);
-            startActivity(about);
-            return true;
-        }
-        if (id == R.id.about_learn1) {
-            Intent about = new Intent(this, About_Learn.class);
-            startActivity(about);
-            return true;
-        }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

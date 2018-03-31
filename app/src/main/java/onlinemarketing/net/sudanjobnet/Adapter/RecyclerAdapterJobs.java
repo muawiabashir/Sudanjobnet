@@ -19,12 +19,9 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,26 +110,25 @@ public class RecyclerAdapterJobs extends RecyclerView.Adapter<RecyclerView.ViewH
 
 //        DateTime posted = fmt1.parseDateTime(posted_on);
         //   SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
-
-//          if (dateFormat.parse(posted_on==today.toDate().toString()) {
+//        DateTimeFormatter dateFormat = DateTimeFormat
+//                .forPattern("dd MMMM yyyy");
+        LocalDate Today = new LocalDate();
+//       LocalDate posted = LocalDate.parse(posted_on,DateTimeFormat.forPattern("dd MMMM yyyy"));
+//
+        LocalDate closing = fmt.parseLocalDate(closing_date);
+//
+//        Log.v("current Date",Today.toString());
+//        Log.v("Posted Date",posted.toString());
+//          if (posted.equals(Today)) {
 //                ListItemViewHolder.posted_on.setVisibility(View.VISIBLE);
 //           } else {
 //                 ListItemViewHolder.posted_on.setVisibility(View.INVISIBLE);
 //             }
-//
 
-        if (days.getDays() == 0) {
-            //ListItemViewHolder.title.setHighlightColor(Color.MAGENTA);
-            Period period = new Period(c_date, today, PeriodType.dayTime());
 
-            PeriodFormatter formatter = new PeriodFormatterBuilder()
-//                    .appendDays().appendSuffix(" day ", " days ")
-                    .appendHours().appendSuffix(" hour ", " hours ")
-                    .appendMinutes().appendSuffix(" minute ", " minutes ")
-//                    .appendSeconds().appendSuffix(" second ", " seconds ")
-                    .toFormatter();
+        if (closing.equals(Today)) {
             ListItemViewHolder.time_ago.setText("Today is the Last day");
-            //    ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context, R.color.colorAccent));
+            //ListItemViewHolder.time_ago.setTextColor(ContextCompat.getColorStateList(context, R.color.colorAccent));
         }
     }
 

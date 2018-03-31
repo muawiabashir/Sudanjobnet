@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about">About Sudanjob.net</string>
     <string name="learn">About Learn</string>
     <string name="freehoure">About FreeHoure</string>
     <string name="go_event">About Go Events</string>

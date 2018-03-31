@@ -28,33 +28,12 @@
             android:id="@+id/help"
             android:icon="@drawable/ic_help"
             android:title="Help"/>
+
+        <item
+            android:id="@+id/close"
+            android:icon="@drawable/ic_action_close"
+            android:title="Close" />
     </group>
-    <item android:title="About">
-        <menu>
-            <group android:id="@+id/abouts" android:checkableBehavior="single" >
-
-                <item
-                    android:id="@+id/about_sudanjob1"
-                    android:icon="@mipmap/ic_launcher_round"
-
-                    android:title="About Sudanjob.net"/>
-                <item
-                    android:id="@+id/about_learn1"
-                    android:icon="@mipmap/ic_launcher_round"
-
-                    android:title="About Learn"/>
-                <item
-                    android:id="@+id/about_freehoure1"
-                    android:icon="@mipmap/ic_free_hour"
-                    android:title="About FreeHour"/>
-                <item
-                    android:id="@+id/about_go_event1"
-                    android:icon="@mipmap/ic_go_event"
-                    android:title="About Go Event"/>
-            </group>
-
-        </menu>
-    </item>
 
 
 

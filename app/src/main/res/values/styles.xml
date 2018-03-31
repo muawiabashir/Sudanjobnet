@@ -10,6 +10,7 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -19,16 +20,16 @@
 
     </style>
 
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/my_overflow_menu</item>
+    </style>
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
         <item name="drawableSize">15dp</item>
 
         <item name="spinBars">true</item>
     </style>
-    <style name="MyButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="colorButtonNormal">@color/primary</item>
-    </style>
+
     <style name="progress_dialog" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
         <item name="DialogTitleText">Loading …</item>
@@ -65,27 +66,6 @@
         <item name="textAllCaps">true</item>
     </style>
 
-    <style name="ToolBarStyle" parent="ToolBarStyle.Base" />
-
-    <style name="ToolBarStyle.Base" parent="">
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-    </style>
-
-    <style name="ToolBarStyle.Event" parent="ToolBarStyle">
-        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
-    </style>
-
-    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <!--Any text styling can be done here-->
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@android:style/TextAppearance.Medium</item>
-    </style>
-
     <!-- This configures the styles for the title within the Toolbar  -->
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textStyle">italic</item>
-    </style>
 
 </resources>

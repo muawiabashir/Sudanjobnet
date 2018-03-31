@@ -3,13 +3,12 @@ package onlinemarketing.net.sudanjobnet.Fragment;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import onlinemarketing.net.sudanjobnet.Activity.About_Go_Envent;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterGo_Event;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
@@ -147,7 +148,14 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
 //            //      recyclerView.setAdapter(adapter);
 //
 //        }
-
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_go_event);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent about = new Intent(getActivity(), About_Go_Envent.class);
+                startActivity(about);
+            }
+        });
 
         return view;
 
@@ -195,12 +203,14 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
         //Creating request queue
         CustomVolleyRequest.getInstance(getContext()).getRequestQueue().add(jsonArrayRequest);
         }else {
-            Snackbar snackbar = Snackbar
-                    .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
-            View snackBarView = snackbar.getView();
-            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
-            snackbar.setActionTextColor(Color.WHITE);
-            snackbar.show();
+//            Snackbar snackbar = Snackbar
+//                    .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+//            View snackBarView = snackbar.getView();
+//            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+//            snackbar.setActionTextColor(Color.WHITE);
+//            snackbar.show();
+            mSwipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
         }
 
         //Adding request to the queue

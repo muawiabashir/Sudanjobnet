@@ -65,15 +65,15 @@
                     android:minHeight="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    app:titleMarginTop="15dp">
+                    app:titleMarginTop="5dp">
+
 
                     <TextView
                         android:id="@+id/toolbar_title"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="fill_parent"
                         android:gravity="center"
-                        android:paddingLeft="-48dp"
-                        android:paddingStart="-48dp"
+                        android:paddingLeft="0dp"
                         android:text="Sudanjob.net"
                         android:textColor="@color/white"
                         android:textSize="25sp"
@@ -111,7 +111,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/primary"
-        android:cacheColorHint="@color/colorAccent"
+        android:cacheColorHint="#F9E186"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/fragment_navigation_drawer"
         app:itemTextColor="@color/white"

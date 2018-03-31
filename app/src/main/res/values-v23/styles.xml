@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
@@ -20,18 +21,18 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textColorPrimary">@color/secondary_text</item>
+        <item name="android:windowActivityTransitions">true</item>
         <!-- Customize your theme here. -->
 
     </style>
 
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/my_overflow_menu</item>
+    </style>
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
         <item name="drawableSize">15dp</item>
         <item name="spinBars">true</item>
-    </style>
-    <style name="MyButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="colorButtonNormal">@color/primary</item>
     </style>
     <style name="progress_dialog" parent="android:Theme.DeviceDefault.Dialog">
         <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>

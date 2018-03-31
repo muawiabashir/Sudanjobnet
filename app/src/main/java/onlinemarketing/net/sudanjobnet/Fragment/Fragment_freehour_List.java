@@ -4,13 +4,12 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -38,10 +37,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
+import onlinemarketing.net.sudanjobnet.Activity.About_Freehour;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterFreeHour;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
 import onlinemarketing.net.sudanjobnet.R;
+import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
 
@@ -60,7 +61,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer;
     private ImageView clogo;
-    //SqlHandler db;
+    SqlHandler db;
     private LinearLayout no_content;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -107,6 +108,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
         clogo = view.findViewById(R.id.clogo11);
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        db = new SqlHandler(getActivity());
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -126,18 +128,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
                 } else {
                     mSwipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-//        if (Util.checknetwork(getActivity())) {
-//            getData();
-//
-//
-//        } else {
-//
-//
-//            Snackbar snackbar = Snackbar
+                    //   Snackbar snackbar = Snackbar
 //                    .make(container, R.string.check_connection, Snackbar.LENGTH_LONG);
 //            View snackBarView = snackbar.getView();
 //            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
@@ -158,7 +149,34 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 //            //      recyclerView.setAdapter(adapter);
 //
 //        }
+//                    Util
+//                            .displayDialog(
+//                                    getString(R.string.app_name),
+//                                    getString(R.string.check_connection),
+//                                    getActivity(), false);
+                    //	Toast.makeText(this,R.string.check_connection,Toast.LENGTH_LONG).show();
+                    ArrayList<FreeHourItems> jobList = db.getFreeHourData();
+                    final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+                    dialog.dismiss();
 
+                    adapter = new RecyclerAdapterFreeHour(jobList, getActivity());
+                    //  adapter.setOnItemClickListener(this);
+                    // Adding adapter to recyclerview
+                    recyclerView.setAdapter(adapter);
+
+                }
+
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_free);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent about = new Intent(getActivity(), About_Freehour.class);
+                startActivity(about);
+            }
+        });
 
         return view;
 
@@ -210,12 +228,21 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
         //Creating request queue
         CustomVolleyRequest.getInstance(getContext()).getRequestQueue().add(jsonArrayRequest);
         }else {
-            Snackbar snackbar = Snackbar
-                    .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
-            View snackBarView = snackbar.getView();
-            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
-            snackbar.setActionTextColor(Color.WHITE);
-            snackbar.show();
+//            Snackbar snackbar = Snackbar
+//                    .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+//            View snackBarView = snackbar.getView();
+//            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+//            snackbar.setActionTextColor(Color.WHITE);
+//            snackbar.show();
+            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+            ArrayList<FreeHourItems> jobList = db.getFreeHourData();
+            adapter = new RecyclerAdapterFreeHour(jobList, getActivity());
+            //  adapter.setOnItemClickListener(this);
+            //Adding adapter to recyclerview
+            adapter.notifyDataSetChanged();
+            recyclerView.setAdapter(adapter);
+            //  final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+            dialog.dismiss();
         }
 
         //Adding request to the queue
@@ -246,7 +273,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
                     jobitems.setCompany_name(company_name);
                     String closing = json.getString("closing_freehour");
                     jobitems.setClosing(closing);
-                    //  db.FillData(pid, title, company_name, closing, logo);
+                    db.FillDataFreeHour(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

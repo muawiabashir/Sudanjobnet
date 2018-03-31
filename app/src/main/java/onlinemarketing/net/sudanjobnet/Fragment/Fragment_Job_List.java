@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -54,6 +56,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import dmax.dialog.SpotsDialog;
+import onlinemarketing.net.sudanjobnet.Activity.About_Us;
 import onlinemarketing.net.sudanjobnet.Activity.PiwikApp;
 import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterJobs;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
@@ -156,6 +159,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     //Adding adapter to recyclerview
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
+                    final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+                    dialog.dismiss();
 
 
                 }
@@ -202,6 +207,14 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         footer = view.findViewById(R.id.footer);
 
         clogo = view.findViewById(R.id.clogo);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent about = new Intent(getActivity(), About_Us.class);
+                startActivity(about);
+            }
+        });
 
         return view;
 
@@ -326,64 +339,6 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     adapter.notifyDataSetChanged();
                     Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
 
-                    if (days.getDays() == 0) {
-
-                        //     getTitle(title1);
-//        if (days.getDays()==0 ) {
-                        //        Toast.makeText(getActivity(), "today is the last day for :" + "Positions:\n"+title+"\n\n", Toast.LENGTH_LONG).show();
-//                    new MaterialStyledDialog.Builder(getActivity())
-//                            .setTitle("Sudanjob.net")
-//                            .setDescription("Last day for the following Positions:" + title + "\n\n")
-//                            .setStyle(Style.HEADER_WITH_ICON)
-//                            .setHeaderColor(R.color.colorAccent)
-//                            .withDialogAnimation(true)
-//                            .setCancelable(true)
-//
-//                            .setIcon(R.mipmap.icon_sudanjob1)
-//
-//                            //.setStyle(Style.HEADER_WITH_TITLE)
-//                            .withIconAnimation(true)
-//                            .show();
-
-
-//                    NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//                    NotificationCompat.Builder builder = null;
-//                    Intent intent = new Intent(getActivity(), Fragment_Job_List.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    PendingIntent pi = PendingIntent.getActivity(getActivity(),
-//                            0 /* Request code */,
-//                            intent,
-//                            PendingIntent.FLAG_ONE_SHOT);
-//
-//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//                        NotificationChannel notificationChannel = new NotificationChannel("ID", "Name", importance);
-//                        notificationManager.createNotificationChannel(notificationChannel);
-//                        builder = new NotificationCompat.Builder(getActivity(), notificationChannel.getId());
-//                    } else {
-//                        builder = new NotificationCompat.Builder(getActivity());
-//                    }
-//
-//                    builder = builder
-//                            .setSmallIcon(R.mipmap.icon_sudanjob1)
-//                            .setColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-//                            .setContentTitle(getActivity().getString(R.string.app_name))
-//                            .setTicker(getActivity().getString(R.string.hary))
-//                            .setContentText("Last day for the following Positions:" + title + "\n\n")
-//                            //.setDefaults(Notification.DEFAULT_ALL)
-//                            .setSound(Uri.parse("android.resource://onlinemarketing.net.sudanjobnet/"+ R.raw.sudajobmp3))
-//                            .setContentIntent(pi)
-//                            .setAutoCancel(true);
-//
-//                    notificationManager.notify(0, builder.build());
-
-//                if (days.getDays()==0 ) {
-//
-//                    Toast.makeText(getApplicationContext(), "today is the last day for :" + title, Toast.LENGTH_LONG).show();
-//
-                        //      }
-
-                    }
                 } else {
                     Toast.makeText(getActivity(), "there is no Post Now ", Toast.LENGTH_LONG).show();
                 }
@@ -394,12 +349,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
             mSwipeRefreshLayout.setRefreshing(false);
             jobItemsArrayList.add(jobitems);
 
-//            adapter = new RecyclerAdapterJobs(jobItemsArrayList, getActivity());
-//            adapter.setOnItemClickListener(this);
-//
-//            //Adding adapter to recyclerview
-//            //Collections.sort(jobItemsArrayList, Collections.reverseOrder());
-//            recyclerView.setAdapter(adapter);
+            // recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
 
@@ -410,15 +360,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         //    Toast.makeText(getApplicationContext(),lastId,Toast.LENGTH_LONG).show();
     }
 
-    // private void getTitle(String title) {
 
-    //   Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-    // alarmIntent.putExtra(Intent.EXTRA_TEXT, title);
-    //getContext().sendBroadcast(alarmIntent);
-    // }
-
-    ;
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void OnClick(Object objet, int position) {
         Intent intent = new Intent(getActivity(), Fragment_Job_Details.class);
@@ -428,9 +371,12 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         if (objet instanceof JobItems)
             item1 = (JobItems) objet;
 
+
         intent.putExtra("item", item1);
         intent.putExtra("pid=", item1.getPid());
         startActivity(intent);
+
+
     }
 
     private void loadMore() {
@@ -522,73 +468,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                 Log.v("new date format", String.valueOf(c_date));
                 int todyint = today.getDayOfMonth();
                 Period period = new Period(today, c_date);
-//if (posted_no1==today){
-//    ImageView posted_New= (ImageView)getView().findViewById(R.id.btn_new);
-//    posted_New.setVisibility(View.VISIBLE);
-//
-//}
-                String Posted_date = ConvertDate(posted_on);
-                DateTimeFormatter fmt1 = DateTimeFormat.forPattern("dd MMMM yyyy");
-                //  DateTime posted_no1 = fmt.parseDateTime(posted_on);
-
-//                DateTime posted_date = fmt.parseDateTime(posted_on);
-//                Days days_posted = Days.daysBetween(today.withTimeAtStartOfDay(), posted_date.withTimeAtStartOfDay());
-//             if (days_posted.t)
-                Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
-                if (days.getDays() == 0) {
-//        if (days.getDays()==0 ) {
-                    //        Toast.makeText(getActivity(), "today is the last day for :" + "Positions:\n"+title+"\n\n", Toast.LENGTH_LONG).show();
-//                    new MaterialStyledDialog.Builder(getActivity())
-//                            .setTitle("Sudanjob.net")
-//                            .setDescription("Last day for the following Positions:" + title + "\n\n")
-//                            .setStyle(Style.HEADER_WITH_ICON)
-//                            .setHeaderColor(R.color.colorAccent)
-//                            .withDialogAnimation(true)
-//                            .setCancelable(true)
-//
-//                            .setIcon(R.mipmap.icon_sudanjob1)
-//
-//                            //.setStyle(Style.HEADER_WITH_TITLE)
-//                            .withIconAnimation(true)
-//                            .show();
 
 
-//                    NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//                    NotificationCompat.Builder builder = null;
-//                    Intent intent = new Intent(getActivity(), Fragment_Job_List.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    PendingIntent pi = PendingIntent.getActivity(getActivity(),
-//                            0 /* Request code */,
-//                            intent,
-//                            PendingIntent.FLAG_ONE_SHOT);
-//
-//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//                        NotificationChannel notificationChannel = new NotificationChannel("ID", "Name", importance);
-//                        notificationManager.createNotificationChannel(notificationChannel);
-//                        builder = new NotificationCompat.Builder(getActivity(), notificationChannel.getId());
-//                    } else {
-//                        builder = new NotificationCompat.Builder(getActivity());
-//                    }
-//
-//                    builder = builder
-//                            .setSmallIcon(R.mipmap.icon_sudanjob1)
-//                            .setColor(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-//                            .setContentTitle(getActivity().getString(R.string.app_name))
-//                            .setTicker(getActivity().getString(R.string.hary))
-//                            .setContentText("Last day for the following Positions:" + title + "\n\n")
-//                            //.setDefaults(Notification.DEFAULT_ALL)
-//                            .setSound(Uri.parse("android.resource://onlinemarketing.net.sudanjobnet/"+ R.raw.sudajobmp3))
-//                            .setContentIntent(pi)
-//                            .setAutoCancel(true);
-//
-//                    notificationManager.notify(0, builder.build());
-                    //      Intent alarmIntent = new Intent(getActivity(), Notification_Receiver.class);
-                    //    alarmIntent.putExtra("title", title1);
-                    //  getContext().sendBroadcast(alarmIntent);
-
-                }
-                //db.FillData(pid, title, company_name, closing, logo);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

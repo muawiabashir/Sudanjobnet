@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    android:background="@color/primary_dark">
+    android:background="@color/primary">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -60,6 +60,7 @@
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
+
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:gravity="top"
@@ -72,7 +73,7 @@
                         android:id="@+id/toolbar_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
+
                         android:gravity="center"
                         android:text="Sudanjob.net"
                         android:textColor="@color/white"
@@ -113,7 +114,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/primary"
-        android:cacheColorHint="@color/colorAccent"
+        android:cacheColorHint="#F9E186"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/fragment_navigation_drawer"
         app:itemTextColor="@color/white"

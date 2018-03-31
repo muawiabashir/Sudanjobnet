@@ -44,8 +44,8 @@ public class Notification_Receiver extends BroadcastReceiver {
             builder = new NotificationCompat.Builder(context);
         }
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.activity_notification);
-        contentView.setTextViewText(R.id.companTXT, intent.getExtras().getString("company"));
-        contentView.setTextViewText(R.id.title_notif, (CharSequence) intent.getSerializableExtra("title"));
+        contentView.setTextViewText(R.id.Notifi_com, intent.getExtras().getString("company"));
+        contentView.setTextViewText(R.id.notifi_title, (CharSequence) intent.getSerializableExtra("title"));
         builder = builder
                 .setSmallIcon(R.mipmap.icon_sudanjob1)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))

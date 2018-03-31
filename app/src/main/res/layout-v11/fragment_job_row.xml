@@ -28,9 +28,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:transitionName="image_transition"
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/title"
@@ -39,7 +38,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/clogo"
             android:layout_toRightOf="@+id/clogo"
-
+            android:transitionName="title_transition"
             android:text="Title"
 
             android:textStyle="normal|bold" />
@@ -54,7 +53,7 @@
             android:drawableLeft="@drawable/ic_action_domain"
             android:drawablePadding="5dp"
 
-
+            android:transitionName="com_transition"
             android:drawableStart="@drawable/ic_action_domain"
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"

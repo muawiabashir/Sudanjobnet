@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,7 +49,7 @@ import onlinemarketing.net.sudanjobnet.util.Util;
  * Created by muawia.ibrahim on 1/20/2016.
  */
 public class Fragment_Job_Details extends AppCompatActivity {
-
+    private android.support.v7.widget.Toolbar M_toolbar;
     String URL = "http://sudanjob.net/appjobsdet.php?pid=";
     String URL_det = "http://www.sudanjob.net/jobview.php?id=";
     View botomSheet;
@@ -83,6 +84,12 @@ public class Fragment_Job_Details extends AppCompatActivity {
         setContentView(R.layout.job_details);
         //    db = new SqlHandler(this);
         String App_ID = getString(R.string.facebook_app_id);
+        M_toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+//        M_toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(M_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Job Detail");
 
 //botomSheet=findViewById(R.id.bottom_sheet);
 
@@ -229,15 +236,20 @@ public class Fragment_Job_Details extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void getData() {
 
         jobItem = (JobItems) getIntent().getSerializableExtra("item");
-        // Intent i = getIntent();
-        //   pid =i.getExtras(Fragment_Job_List)
-        //Showing a progress dialog
-        //     final ProgressDialog loading = ProgressDialog.show(this, "Loading Data", "Please wait...", false, false);
-        //  final ProgressDialog loading = ProgressDialog.show(Fragment_Job_Details.this, "Loading Data", "Please wait...", false, false);
-        //Creating a json array request
+
         linlaHeaderProgress.setVisibility(View.VISIBLE);
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(URL + jobItem.getPid(),
                 new Response.Listener<JSONObject>() {

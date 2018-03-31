@@ -21,12 +21,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 
 
 public class SqlHandler {
-
+    public static final String ENCODING_SETTING = "PRAGMA encoding = 'windows-1256'";
     public static final String ID = "_id";
 
     public static final String TAG_PID = "pid";
@@ -39,6 +40,8 @@ public class SqlHandler {
     public static final String TAG_TITLE_LEARN = "title_learn";
     public static final String TAG_COMPANY_NAME_LEARN = "company_name_learn";
     public static final String TAG_CLOSING_LEARN = "closing_learn";
+
+
     public static final String TAG_TITLE = "title";
     public static final String TAG_COMPANY_NAME = "company_name";
     public static final String TAG_CLOSING = "closing";
@@ -50,6 +53,13 @@ public class SqlHandler {
     public static final String TAG_qualification = "qualification";
     public static final String TAG_footer = "footer";
     public static final String TAG_city = "city";
+
+    public static final String TABLE_NAME_FreeHour = "freeHour";
+    public static final String TAG_PID_FreeHour = "pid_freehour";
+    public static final String TAG_TITLE_FreeHour = "title_freehour";
+    public static final String TAG_COMPANY_NAME_FreeHour = "company_name_freehour";
+    public static final String TAG_CLOSING_FreeHour = "closing_freehour";
+    public static final String TAG_Logo_FreeHour = "logo";
     private final Context ourCTX;
     public SQLiteDatabase ourDb;
     private DbHelper ourHelper;
@@ -61,6 +71,8 @@ public class SqlHandler {
     public SqlHandler open() throws SQLException {
         ourHelper = new DbHelper(ourCTX);
         ourDb = ourHelper.getWritableDatabase();
+
+
         return this;
     }
 
@@ -154,6 +166,31 @@ public class SqlHandler {
         ourDb.close();
 
     }
+
+    public void FillDataFreeHour(String pid, String title, String company_name, String closing, String clog) {
+        open();
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(TAG_PID_FreeHour, pid);
+        cv.put(TAG_TITLE_FreeHour, title);
+        cv.put(TAG_COMPANY_NAME_FreeHour, company_name);
+        cv.put(TAG_CLOSING_FreeHour, closing);
+
+        cv.put(TAG_Logo_FreeHour, clog);
+
+
+        if (!isAlreadyInserted(pid)) {
+            long insert = ourDb.insert(TABLE_NAME_FreeHour, null, cv);
+            Log.e("DB Free Hour", "insterted" + insert);
+        } else {
+            long update = ourDb.update(TABLE_NAME_FreeHour, cv, TAG_PID_FreeHour + " = " + pid, null);
+            Log.e("DB Free Hour", "update" + update);
+        }
+        ourDb.close();
+
+    }
+
 
     public ArrayList<HashMap<String, String>> getData1() {
         // read from Db
@@ -255,6 +292,7 @@ public class SqlHandler {
         ArrayList<JobItems> jobList = new ArrayList<>();
         open();
         Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME + " ORDER BY " + TAG_PID + " DESC", null);
+
         int id = c.getColumnIndex(ID);
         int pid = c.getColumnIndex(TAG_PID);
         int title = c.getColumnIndex(TAG_TITLE);
@@ -268,6 +306,53 @@ public class SqlHandler {
             c.moveToFirst();
             for (int i = 0; i < c.getCount(); i++) {
                 JobItems jobItems = new JobItems();
+                jobItems.setPid(c.getString(pid));
+                jobItems.setTitle(c.getString(title));
+                jobItems.setCompany_name(c.getString(company_name));
+                jobItems.setClosing(c.getString(closing));
+                jobItems.setClogo(c.getString(clogo));
+                // jobList.add(id, String.valueOf(c.getInt(id)));
+                //  jobList.add(pid, c.getString(pid));
+                //  jobList.add(title, c.getString(title));
+                //  jobList.add(company_name, c.getString(company_name));
+                //  jobList.add(closing, c.getString(closing));
+                //  map.put(ID, "" + c.getInt(id));
+                //  map.put(TAG_PID, c.getString(pid));
+                // map.put(TAG_TITLE, c.getString(title));
+                // map.put(TAG_COMPANY_NAME, c.getString(company_name));
+                // map.put(TAG_CLOSING, c.getString(closing));
+                //   map.put(TAG_PAGER, c.getString(pager));
+                jobList.add(jobItems);
+                c.moveToNext();
+            }
+        }
+
+        if (c != null)
+            c.close();
+
+        ourDb.close();
+
+        return jobList;
+    }
+
+    public ArrayList<FreeHourItems> getFreeHourData() {
+        // read from Db
+        ArrayList<FreeHourItems> jobList = new ArrayList<>();
+        open();
+        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME_FreeHour + " ORDER BY " + TAG_PID_FreeHour + " DESC", null);
+        int id = c.getColumnIndex(ID);
+        int pid = c.getColumnIndex(TAG_PID_FreeHour);
+        int title = c.getColumnIndex(TAG_TITLE_FreeHour);
+        int company_name = c.getColumnIndex(TAG_COMPANY_NAME_FreeHour);
+        int closing = c.getColumnIndex(TAG_CLOSING_FreeHour);
+        int clogo = c.getColumnIndex(TAG_Logo_FreeHour);
+
+
+        Log.e("DB", "cusror count" + c.getCount());
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                FreeHourItems jobItems = new FreeHourItems();
                 jobItems.setPid(c.getString(pid));
                 jobItems.setTitle(c.getString(title));
                 jobItems.setCompany_name(c.getString(company_name));
@@ -533,6 +618,9 @@ public class SqlHandler {
             db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"
                     + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_PAGER + " TEXT);");
 
+            //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
+            db.execSQL("CREATE TABLE " + TABLE_NAME_FreeHour + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_FreeHour + " TEXT,"
+                    + TAG_TITLE_FreeHour + " TEXT, " + TAG_COMPANY_NAME_FreeHour + " TEXT , " + TAG_CLOSING_FreeHour + " TEXT, " + TAG_Logo_FreeHour + " TEXT);");
 
         }
 
@@ -540,7 +628,8 @@ public class SqlHandler {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // what happens when the database is upgraded
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_Learn);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_FreeHour);
             onCreate(db);
 
         }
