@@ -67,13 +67,13 @@
 
 
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_gravity="bottom|right"
             android:src="@mipmap/ic_free_hour"
+            android:layout_alignParentRight="true"
 
-            app:backgroundTint="@color/cardview_shadow_start_color"
             app:fabSize="auto"
             app:useCompatPadding="true"
+            android:backgroundTint="@color/cardview_shadow_start_color"
             tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

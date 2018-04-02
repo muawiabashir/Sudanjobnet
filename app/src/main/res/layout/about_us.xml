@@ -42,7 +42,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
 
-
+            android:id="@+id/about_text"
             android:text="@string/connect_you_to_better_jobs_and_vacancies"
             android:textColor="@color/primary_text" />
 

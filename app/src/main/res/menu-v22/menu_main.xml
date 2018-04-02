@@ -2,11 +2,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activity.MainActivity">
+
+
+    <item
+        android:id="@+id/about_sdnjob"
+        android:icon="@mipmap/icon_sudanjob1"
+        android:orderInCategory="100"
+        android:title="About Sudanjob.net"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/about_learn"
+        android:icon="@mipmap/ic_learn"
+        android:orderInCategory="100"
+        android:title="About Learnpage.net"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/free_about"
+        android:icon="@mipmap/ic_free_hour"
+        android:orderInCategory="100"
+        android:title="About FreeHour"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/go_evn"
+        android:icon="@mipmap/ic_go_event"
+        android:orderInCategory="100"
+
+        android:title="About Go Events"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_notification1"
         android:icon="@mipmap/ic_launcher"
+        android:orderInCategory="100"
         android:title="Exit"
         app:showAsAction="never" />
-
 
 </menu>

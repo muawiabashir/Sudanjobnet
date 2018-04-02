@@ -1,13 +1,12 @@
 package onlinemarketing.net.sudanjobnet.Activity;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import onlinemarketing.net.sudanjobnet.R;
 
@@ -24,7 +23,8 @@ public class About_Us extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         setContentView(R.layout.about_us);
         //this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        TextView t2 = (TextView) findViewById(R.id.about_text);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
         this.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

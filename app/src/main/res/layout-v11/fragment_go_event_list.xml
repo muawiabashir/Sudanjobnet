@@ -64,16 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
+            android:layout_alignParentRight="true"
 
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_gravity="bottom|right"
             android:src="@mipmap/ic_go_event"
-
-            app:backgroundTint="@color/cardview_shadow_start_color"
             app:fabSize="auto"
             app:useCompatPadding="true"
+            android:backgroundTint="@color/cardview_shadow_start_color"
             tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>
