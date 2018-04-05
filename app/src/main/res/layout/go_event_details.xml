@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_weight="1"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -233,7 +234,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/apply"
+            android:text="View"
             android:textColor="@color/learn_color"
             tools:ignore="ButtonStyle" />
 

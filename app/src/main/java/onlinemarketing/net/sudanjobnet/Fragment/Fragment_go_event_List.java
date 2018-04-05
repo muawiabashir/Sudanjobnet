@@ -122,16 +122,16 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
                     // Fetching data from server
                     getData();
                 } else {
-                    Snackbar snackbar = Snackbar
-                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
-                    View snackBarView = snackbar.getView();
-                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
-                    snackbar.setActionTextColor(Color.WHITE);
-                    snackbar.show();
+//                    Snackbar snackbar = Snackbar
+//                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+//                    View snackBarView = snackbar.getView();
+//                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+//                    snackbar.setActionTextColor(Color.WHITE);
+//                    snackbar.show();
 
-                    //      Toast.makeText(getActivity(),R.string.check_connection,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.check_connection, Toast.LENGTH_LONG).show();
                     ArrayList<Go_event_Items> jobList = db.get_Go_eventData();
-
+                    mSwipeRefreshLayout.setRefreshing(false);
 
                     adapter = new RecyclerAdapterGo_Event(jobList, getActivity());
                     // adapter.setOnItemClickListener((RecyclerAdapterGo_Event.OnItemClick) getActivity());
@@ -199,6 +199,7 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
                         try {
                             JSONArray jsonarray = response.getJSONArray("goevent");
                             linlaHeaderProgress.setVisibility(View.GONE);
+                            mSwipeRefreshLayout.setRefreshing(false);
                             // mSwipeRefreshLayout.setRefreshing(false);
                             //calling method to parse json array
                             parseData(jsonarray);

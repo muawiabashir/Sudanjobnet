@@ -4,14 +4,12 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -129,13 +127,13 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 
                 } else {
                     mSwipeRefreshLayout.setRefreshing(false);
-                    Snackbar snackbar = Snackbar
-                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
-                    View snackBarView = snackbar.getView();
-                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
-                    snackbar.setActionTextColor(Color.WHITE);
-                    snackbar.show();
-                    //  Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+//                    Snackbar snackbar = Snackbar
+//                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+//                    View snackBarView = snackbar.getView();
+//                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+//                    snackbar.setActionTextColor(Color.WHITE);
+//                    snackbar.show();
+                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
                     //   Snackbar snackbar = Snackbar
 //                    .make(container, R.string.check_connection, Snackbar.LENGTH_LONG);
 //            View snackBarView = snackbar.getView();
@@ -242,7 +240,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 //            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
 //            snackbar.setActionTextColor(Color.WHITE);
 //            snackbar.show();
-            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+            //  Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
             ArrayList<FreeHourItems> jobList = db.getFreeHourData();
             adapter = new RecyclerAdapterFreeHour(jobList, getActivity());
             //  adapter.setOnItemClickListener(this);

@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -135,14 +136,14 @@ public class Fragment_learning_List extends Fragment implements RecyclerAdapterL
 
 
                 } else {
-                    Snackbar snackbar = Snackbar
-                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
-                    View snackBarView = snackbar.getView();
-                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
-                    snackbar.setActionTextColor(Color.WHITE);
-                    snackbar.show();
+//                    Snackbar snackbar = Snackbar
+//                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+//                    View snackBarView = snackbar.getView();
+//                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+//                    snackbar.setActionTextColor(Color.WHITE);
+//                    snackbar.show();
                     mSwipeRefreshLayout.setRefreshing(false);
-                    //   Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
                     ArrayList<LearningItems> LearningList = db.getLearnData();
                     adapter = new RecyclerAdapterLearning(LearningList, getActivity());
                     //  adapter.setOnItemClickListener(this);

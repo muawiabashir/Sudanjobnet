@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_weight="1"
     android:orientation="vertical">
@@ -105,8 +106,7 @@
                     android:layout_alignLeft="@+id/duration3"
                     android:layout_alignStart="@+id/duration3"
                     android:layout_below="@+id/header"
-                    android:gravity="right"
-                    android:text="Company Name" />
+                    android:gravity="right" />
 
                 <TextView
                     android:id="@+id/closingtxt"
@@ -125,8 +125,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@+id/citytxt"
                     android:layout_toRightOf="@+id/citytxt"
-                    android:gravity="right"
-                    android:text="Closing date" />
+                    android:gravity="right" />
 
                 <TextView
                     android:id="@+id/citytxt"
@@ -144,8 +143,7 @@
                     android:layout_below="@+id/closing3"
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@+id/citytxt"
-                    android:layout_toRightOf="@+id/citytxt"
-                    android:text="length" />
+                    android:layout_toRightOf="@+id/citytxt" />
 
                 <TextView
                     android:id="@+id/duration"
@@ -163,8 +161,7 @@
                     android:layout_below="@+id/length3"
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@+id/duration"
-                    android:layout_toRightOf="@+id/duration"
-                    android:text="Duration" />
+                    android:layout_toRightOf="@+id/duration" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -199,8 +196,7 @@
                         android:id="@+id/footer3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="Job Description" />
+                        android:padding="5dp" />
                 </RelativeLayout>
 
             </RelativeLayout>

@@ -6,6 +6,7 @@
     android:id="@+id/details_layout"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/white"
     tools:context=".Fragment.Fragment_Job_Details">
 
     <LinearLayout

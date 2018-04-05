@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_weight="1"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout

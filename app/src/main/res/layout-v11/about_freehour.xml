@@ -34,7 +34,7 @@
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@drawable/free_hour_about" />
+            android:src="@mipmap/ic_free_hour" />
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

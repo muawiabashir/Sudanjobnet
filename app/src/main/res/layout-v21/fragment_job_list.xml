@@ -60,11 +60,12 @@
 
 
             android:layout_alignParentEnd="true"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|center"
             android:src="@mipmap/icon_sudanjob1"
-            app:backgroundTint="#F9E186"
 
-            app:fabSize="auto"
+            android:scaleType="fitCenter"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="normal"
             app:useCompatPadding="true"
             tools:ignore="RtlHardcoded" />
     </RelativeLayout>
