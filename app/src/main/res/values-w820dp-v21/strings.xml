@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="strOK">Ok</string>
-    <string name="check_connection">there is no internet connection!</string>
+    <string name="check_connection">There is no internet connection!</string>
     <string name="image">image</string>
     <string name="apply">Apply</string>
     <string name="share">Share</string>

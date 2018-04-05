@@ -19,16 +19,25 @@
             android:layout_height="wrap_content"></ProgressBar>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+
+        <include
+            android:id="@+id/toolbarfreehour"
+            layout="@layout/toolbarfreehour" />
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_below="@id/toolbarfreehour"
             android:layout_marginTop="5dp"
             app:cardBackgroundColor="@color/cardview_light_background"
             app:cardCornerRadius="20dp"

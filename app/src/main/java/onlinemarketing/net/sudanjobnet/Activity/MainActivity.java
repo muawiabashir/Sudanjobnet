@@ -254,7 +254,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         int id = item.getItemId();
-
+        if (id == R.id.about_sdnjob) {
+            Intent about = new Intent(this, About_Us.class);
+            startActivity(about);
+            return true;
+        }
+        if (id == R.id.free_about) {
+            Intent about = new Intent(this, About_Freehour.class);
+            startActivity(about);
+            return true;
+        }
+        if (id == R.id.go_evn) {
+            Intent about = new Intent(this, About_Go_Envent.class);
+            startActivity(about);
+            return true;
+        }
+        if (id == R.id.about_learn) {
+            Intent about = new Intent(this, About_Learn.class);
+            startActivity(about);
+            return true;
+        }
+        if (id == R.id.close1) {
+            finish();
+            return true;
+        }
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            Intent settings= new Intent(this,Pref.class);
@@ -325,30 +348,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
 
         }
-//        if (id == R.id.about_sudanjob1) {
-//            Intent about = new Intent(this, About_Us.class);
-//            startActivity(about);
-//            return true;
-//        }
-//        if (id == R.id.about_freehoure1) {
-//            Intent about = new Intent(this, About_Freehour.class);
-//            startActivity(about);
-//            return true;
-//        }
-//        if (id == R.id.about_go_event1) {
-//            Intent about = new Intent(this, About_Go_Envent.class);
-//            startActivity(about);
-//            return true;
-//        }
-//        if (id == R.id.about_learn1) {
-//            Intent about = new Intent(this, About_Learn.class);
-//            startActivity(about);
-//            return true;
-//        }
-        if (id == R.id.close) {
-            finish();
-            return true;
-        }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

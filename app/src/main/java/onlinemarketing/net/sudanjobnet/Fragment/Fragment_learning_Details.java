@@ -1,12 +1,16 @@
 package onlinemarketing.net.sudanjobnet.Fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,7 +40,7 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 /**
  * Created by muawia.ibrahim on 1/20/2016.
  */
-public class Fragment_learning_Details extends Activity {
+public class Fragment_learning_Details extends AppCompatActivity {
 
     String URL = "http://www.learnpage.net/applearndet.php?pid=";
     String URL_det = "http://www.learnpage.net/event.php?id=";
@@ -53,26 +57,30 @@ public class Fragment_learning_Details extends Activity {
     private ImageLoader imageLoader;
     private ArrayList<LearningItems> jobItemsArrayList = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.learn_details);
-      //  db = new SqlHandler(this);
+        //  db = new SqlHandler(this);
 
         LinearLayout linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
 
-
-
+        Toolbar M_toolbar = (Toolbar) findViewById(R.id.toolbarlearn);
+        setSupportActionBar(M_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Learn Detail");
         // pid = (TextView) findViewById(R.id.pid);
         title = findViewById(R.id.title_learn);
         company_name = findViewById(R.id.company_name_learn);
         closing = findViewById(R.id.closing_learning);
-       // city = findViewById(R.id.city);
+        // city = findViewById(R.id.city);
         footer = findViewById(R.id.footer_learn);
         clogo = findViewById(R.id.clogo_learn);
         length1 = findViewById(R.id.length_learn);
         duration1 = findViewById(R.id.duration_learn);
-       // db = new SqlHandler(this);
+        // db = new SqlHandler(this);
         Button apply = findViewById(R.id.apply_learn);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,18 +125,17 @@ public class Fragment_learning_Details extends Activity {
                             Fragment_learning_Details.this, false);
             //  JobItems jobItem = new JobItems();
             //jobItem = (JobItems) getIntent().getSerializableExtra("item");
-           // ArrayList<JobItems> jobdb = db.getJobDetails(jobItem.getPid());
-         //   Cursor c =db.getJobDetails(jobItem.getPid());
+            // ArrayList<JobItems> jobdb = db.getJobDetails(jobItem.getPid());
+            //   Cursor c =db.getJobDetails(jobItem.getPid());
 
 
 //              title.setText(jobdb.get(3).getTitle());
             //  company_name.setText(jobdb.get(jobdb1).getCompany_name());
-         //   city.setText(jobdb.get(6).getCity());
-         //   closing.setText(jobdb.get(5).getClosing());
-         //   footer.setText(jobdb.get(7).getFooter());
+            //   city.setText(jobdb.get(6).getCity());
+            //   closing.setText(jobdb.get(5).getClosing());
+            //   footer.setText(jobdb.get(7).getFooter());
             //  title.setText(jobItem1.getTitle());
         }
-
 
 
     }
@@ -231,6 +238,15 @@ public class Fragment_learning_Details extends Activity {
 
         //Adding request to the queue
         requestQueue.add(jsonArrayRequest);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -3,12 +3,14 @@ package onlinemarketing.net.sudanjobnet.Fragment;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -96,7 +98,7 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
         recyclerView.setLayoutManager(llm);
         // final    RecyclerView.ItemDecoration decoration =new ElementDecoration(this);
         //rootLayout = (CoordinatorLayout) view.findViewById(R.id.coordinatorLayout);
-
+        db = new SqlHandler(getActivity());
     //    mySnackbar = (Button) view.findViewById(R.id.mbutton);
         title = view.findViewById(R.id.title12);
         company_name = view.findViewById(R.id.company_name12);
@@ -116,9 +118,26 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
             public void run() {
 
                 mSwipeRefreshLayout.setRefreshing(true);
+                if (Util.checknetwork(getActivity())) {
+                    // Fetching data from server
+                    getData();
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+                    snackbar.setActionTextColor(Color.WHITE);
+                    snackbar.show();
 
-                // Fetching data from server
-                getData();
+                    //      Toast.makeText(getActivity(),R.string.check_connection,Toast.LENGTH_LONG).show();
+                    ArrayList<Go_event_Items> jobList = db.get_Go_eventData();
+
+
+                    adapter = new RecyclerAdapterGo_Event(jobList, getActivity());
+                    // adapter.setOnItemClickListener((RecyclerAdapterGo_Event.OnItemClick) getActivity());
+                    //Adding adapter to recyclerview
+                    recyclerView.setAdapter(adapter);
+                }
             }
         });
 //        if (Util.checknetwork(getActivity())) {
@@ -242,7 +261,7 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
                     go_event_items.setCompany_name(company_name);
                     String closing = json.getString("closing_goevent");
                     go_event_items.setClosing(closing);
-//                      db.FillData_go_event(pid, title, company_name, closing, logo);
+                    db.FillData_go_event(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -260,16 +279,25 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
 
     @Override
     public void OnClick(Object objet, int position) {
-        Intent intent = new Intent(getContext(), Fragment_go_event_Details.class);
+        if (Util.checknetwork(getActivity())) {
+            Intent intent = new Intent(getContext(), Fragment_go_event_Details.class);
 
-        Go_event_Items item1 = new Go_event_Items();
+            Go_event_Items item1 = new Go_event_Items();
 
-        if (objet instanceof Go_event_Items)
-            item1 = (Go_event_Items) objet;
+            if (objet instanceof Go_event_Items)
+                item1 = (Go_event_Items) objet;
 
-        intent.putExtra("item", item1);
-        intent.putExtra("pid_go_event", item1.getPid());
-        startActivity(intent);
+            intent.putExtra("item", item1);
+            intent.putExtra("pid_go_event", item1.getPid());
+            startActivity(intent);
+        } else {
+            Snackbar snackbar = Snackbar
+                    .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+            View snackBarView = snackbar.getView();
+            snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.show();
+        }
     }
 
 //JobItems jobItems=new JobItems();

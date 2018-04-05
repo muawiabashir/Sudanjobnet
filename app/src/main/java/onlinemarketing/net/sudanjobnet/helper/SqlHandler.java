@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
+import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 
@@ -92,7 +93,7 @@ public class SqlHandler {
         ourHelper.close();
     }
 
-    public void FillDataLearn(String pid, String title, String company_name, String closing, String pager, String city) {
+    public void FillDataLearn(String pid, String title, String company_name, String closing, String pager) {
         open();
 
         ContentValues cv = new ContentValues();
@@ -102,15 +103,14 @@ public class SqlHandler {
         cv.put(TAG_COMPANY_NAME_LEARN, company_name);
         cv.put(TAG_CLOSING_LEARN, closing);
         cv.put(TAG_PAGER, pager);
-        cv.put(TAG_city, city);
 
 
         if (!isAlreadyInsertedLearn(pid)) {
             long insert = ourDb.insert(TABLE_NAME_Learn, null, cv);
-            Log.e("DB", "Learning Table insterted" + insert);
+            Log.v("DB", "Learning Table insterted" + insert);
         } else {
             long update = ourDb.update(TABLE_NAME_Learn, cv, TAG_PID_learn + " = " + pid, null);
-            Log.e("DB", "Learning Table update" + update);
+            Log.v("DB", "Learning Table update" + update);
         }
         ourDb.close();
 
@@ -150,6 +150,22 @@ public class SqlHandler {
         }
     }
 
+    private boolean isAlreadyInsertedGoEvent(String pid) {
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME_GO_EVENTS + " WHERE " + TAG_PID_events + " = " + pid;
+            cursor = ourDb.rawQuery(selectQuery, null);
+            return cursor != null && cursor.getCount() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+
+            if (cursor != null)
+                cursor.close();
+        }
+    }
 
     private boolean isAlreadyInsertedFree(String pid) {
 
@@ -430,17 +446,6 @@ public class SqlHandler {
                 jobItems.setCompany_name(c.getString(company_name));
                 jobItems.setClosing(c.getString(closing));
                 jobItems.setClogo(c.getString(clogo));
-                // jobList.add(id, String.valueOf(c.getInt(id)));
-                //  jobList.add(pid, c.getString(pid));
-                //  jobList.add(title, c.getString(title));
-                //  jobList.add(company_name, c.getString(company_name));
-                //  jobList.add(closing, c.getString(closing));
-                //  map.put(ID, "" + c.getInt(id));
-                //  map.put(TAG_PID, c.getString(pid));
-                // map.put(TAG_TITLE, c.getString(title));
-                // map.put(TAG_COMPANY_NAME, c.getString(company_name));
-                // map.put(TAG_CLOSING, c.getString(closing));
-                //   map.put(TAG_PAGER, c.getString(pager));
                 LearnList.add(jobItems);
                 c.moveToNext();
             }
@@ -499,7 +504,7 @@ public class SqlHandler {
         // read from Db
         ArrayList<JobItems> jobList = new ArrayList<>();
         open();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TAG_PID + " = " + pid;
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + TAG_PID + " = " + pid + " AND " + TAG_footer + " IS NOT null";
         Cursor c = ourDb.rawQuery(selectQuery, null);
         int id = c.getColumnIndex(ID);
         int pid1 = c.getColumnIndex(TAG_PID);
@@ -638,14 +643,55 @@ public class SqlHandler {
         cv.put(TAG_PAGER, logo);
 
 
-        if (!isAlreadyInsertedLearn(pid)) {
+        if (!isAlreadyInsertedGoEvent(pid)) {
             long insert = ourDb.insert(TABLE_NAME_GO_EVENTS, null, cv);
-            Log.e("DB", "Learning Table insterted" + insert);
+            Log.e("DB", "Go Events Table insterted" + insert);
         } else {
             long update = ourDb.update(TABLE_NAME_GO_EVENTS, cv, TAG_PID_events + " = " + pid, null);
-            Log.e("DB", "Learning Table update" + update);
+            Log.e("DB", "Go Events Table update" + update);
         }
         ourDb.close();
+
+
+    }
+
+    public ArrayList<Go_event_Items> get_Go_eventData() {
+
+        // read from Db
+        ArrayList<Go_event_Items> jobList = new ArrayList<>();
+        open();
+        Cursor c = ourDb.rawQuery("select * from " + TABLE_NAME_GO_EVENTS + " ORDER BY " + TAG_PID_events + " DESC", null);
+
+        int id = c.getColumnIndex(ID);
+        int pid = c.getColumnIndex(TAG_PID_events);
+        int title = c.getColumnIndex(TAG_TITLE_events);
+        int company_name = c.getColumnIndex(TAG_COMPANY_NAME_events);
+        int closing = c.getColumnIndex(TAG_CLOSING_events);
+        int clogo = c.getColumnIndex(TAG_PAGER);
+        int pager = c.getColumnIndex(TAG_PAGER);
+
+        Log.e("DB", "cusror count" + c.getCount());
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            for (int i = 0; i < c.getCount(); i++) {
+                Go_event_Items jobItems = new Go_event_Items();
+                jobItems.setPid(c.getString(pid));
+                jobItems.setTitle(c.getString(title));
+                jobItems.setCompany_name(c.getString(company_name));
+                jobItems.setClosing(c.getString(closing));
+                jobItems.setClogo(c.getString(clogo));
+
+                jobList.add(jobItems);
+                c.moveToNext();
+            }
+        }
+
+        if (c != null)
+            c.close();
+
+        ourDb.close();
+
+        return jobList;
 
 
     }

@@ -31,7 +31,7 @@
         android:title="About Go Events"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_notification1"
+        android:id="@+id/close1"
         android:icon="@mipmap/ic_launcher"
         android:orderInCategory="100"
         android:title="Exit"

@@ -1,14 +1,16 @@
 package onlinemarketing.net.sudanjobnet.Fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,10 +36,10 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 /**
  * Created by muawia.ibrahim on 1/20/2016.
  */
-public class Fragment_go_event_Details extends Activity {
+public class Fragment_go_event_Details extends AppCompatActivity {
 
     String URL = "http://learnpage.net/appgoeventdet.php?pid=";
-    String URL_det = "http://learnpage.net/appgoeventdet.php?pid=";
+    String URL_det = "http://www.learnpage.net/event.php?id=";
     //SqlHandler db;
     Context mContext;
     Go_event_Items go_event_items = new Go_event_Items();
@@ -59,7 +61,11 @@ public class Fragment_go_event_Details extends Activity {
 
         LinearLayout linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
 
-
+        Toolbar M_toolbar = (Toolbar) findViewById(R.id.toolbargoevent);
+        setSupportActionBar(M_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Go Events Detail");
         pid = (TextView) findViewById(R.id.pid16);
         title = findViewById(R.id.title16);
         company_name = findViewById(R.id.company_name16);
@@ -70,7 +76,7 @@ public class Fragment_go_event_Details extends Activity {
         length1= findViewById(R.id.length16);
         duration1= findViewById(R.id.duration16);
        // db = new SqlHandler(this);
-        FrameLayout apply= findViewById(R.id.apply16);
+        Button apply = findViewById(R.id.apply_go_event);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +112,27 @@ public class Fragment_go_event_Details extends Activity {
             //  title.setText(jobItem1.getTitle());
         }
 
+        Button share = (Button) findViewById(R.id.share__go_event);
+        share.setOnClickListener(new View.OnClickListener() {
+            Go_event_Items
+                    jobItem = (Go_event_Items) getIntent().getSerializableExtra("item");
+            Uri imageUri = Uri.parse(jobItem.getClogo());
 
+            @Override
+            public void onClick(View v) {
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                // Add data to the intent, the receiving app will decide
+                // what to do with it.
+                share.putExtra(Intent.EXTRA_SUBJECT, "Event Title: " + jobItem.getTitle());
+                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n Click the link below for more information  \n\n" + URL_det + jobItem.getPid());
+                share.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+                startActivity(Intent.createChooser(share, "Share job with friends !"));
+            }
+        });
 
     }
 
@@ -211,5 +237,13 @@ public class Fragment_go_event_Details extends Activity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -60,7 +61,7 @@ public class Fragment_Job_Details extends AppCompatActivity {
     JobItems jobItem = new JobItems();
     private LinearLayout linlaHeaderProgress;
     private TextView title;
-    private TextView company_name;
+    private TextView company_name, company_name_txt, closingtxt, citytxt;
     private TextView closing;
     private TextView city;
     private TextView footer;
@@ -85,6 +86,8 @@ public class Fragment_Job_Details extends AppCompatActivity {
         //    db = new SqlHandler(this);
         String App_ID = getString(R.string.facebook_app_id);
         M_toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        CoordinatorLayout details_layout = (CoordinatorLayout) findViewById(R.id.details_layout);
+
 //        M_toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(M_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -137,6 +140,9 @@ public class Fragment_Job_Details extends AppCompatActivity {
         footer = findViewById(R.id.footer);
         clogo = findViewById(R.id.clogo);
         Button apply = findViewById(R.id.apply1);
+        citytxt = findViewById(R.id.citytxt);
+        closingtxt = findViewById(R.id.citytxt);
+        company_name_txt = findViewById(R.id.company_name_txt);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -233,6 +239,16 @@ public class Fragment_Job_Details extends AppCompatActivity {
                 //  title.setText(jobdb.get(7).getFooter());
             }
         }
+// {
+//            footer.setText("Please connect to the internet");
+//           // details_layout.setVisibility(View.INVISIBLE);
+//            title.setVisibility(View.INVISIBLE);
+//            city.setVisibility(View.INVISIBLE);
+//            closing.setVisibility(View.INVISIBLE);
+//clogo.setVisibility(View.INVISIBLE);
+//            company_name_txt.setVisibility(View.INVISIBLE);
+//
+//        }
 
     }
 

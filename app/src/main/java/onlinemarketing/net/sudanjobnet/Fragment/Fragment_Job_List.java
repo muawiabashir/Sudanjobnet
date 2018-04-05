@@ -3,12 +3,14 @@ package onlinemarketing.net.sudanjobnet.Fragment;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -142,9 +144,15 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
                     }
 
                 } else {
+                    Snackbar snackbar = Snackbar
+                            .make(getView(), R.string.check_connection, Snackbar.LENGTH_LONG);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(Color.parseColor("#dc913d"));
+                    snackbar.setActionTextColor(Color.WHITE);
+                    snackbar.show();
                     mSwipeRefreshLayout.setRefreshing(false);
 
-                    Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
                     try {
                         db.delete_expired_posts();
                         Log.v("recorded", "recorded delete");
@@ -365,9 +373,9 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
     @Override
     public void OnClick(Object objet, int position) {
         Intent intent = new Intent(getActivity(), Fragment_Job_Details.class);
-        if (!Util.checknetwork(getActivity())) {
-            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
-        } else {
+//        if (!Util.checknetwork(getActivity())) {
+//            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+//        } else {
             JobItems item1 = new JobItems();
 
             if (objet instanceof JobItems)
@@ -378,7 +386,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
             intent.putExtra("pid=", item1.getPid());
             startActivity(intent);
 
-        }
+//        }
     }
 
     private void loadMore() {

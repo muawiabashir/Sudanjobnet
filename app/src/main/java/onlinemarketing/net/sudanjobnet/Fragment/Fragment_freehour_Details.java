@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +37,7 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 /**
  * Created by muawia.ibrahim on 1/20/2016.
  */
-public class Fragment_freehour_Details extends FragmentActivity {
+public class Fragment_freehour_Details extends AppCompatActivity {
     private TextView title;
     private TextView company_name;
     private TextView closing;
@@ -59,7 +60,11 @@ public class Fragment_freehour_Details extends FragmentActivity {
 
         LinearLayout linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
 
-
+        Toolbar M_toolbar = (Toolbar) findViewById(R.id.toolbarfreehour);
+        setSupportActionBar(M_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("FreeHour Detail");
         // pid = (TextView) findViewById(R.id.pid);
         title = findViewById(R.id.title3);
         company_name = findViewById(R.id.company_name3);
@@ -70,7 +75,7 @@ public class Fragment_freehour_Details extends FragmentActivity {
         length1 = findViewById(R.id.length3);
         duration1 = findViewById(R.id.duration3);
      //   db = new SqlHandler(this);
-        FrameLayout apply = findViewById(R.id.apply);
+        Button apply = findViewById(R.id.apply_freehour);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,5 +232,13 @@ public class Fragment_freehour_Details extends FragmentActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

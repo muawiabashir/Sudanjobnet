@@ -2,7 +2,7 @@
     <string name="app_name">Sudanjob.net</string>
 
     <string name="strOK">Ok</string>
-    <string name="check_connection">there is no internet connection!</string>
+    <string name="check_connection">There is no internet connection!</string>
     <string-array name="syncFrequency">
         <item name="1">Once a day</item>
         <item name="7">Once a week</item>
