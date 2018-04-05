@@ -35,11 +35,17 @@ public class SqlHandler {
     public static final String DATBASE_NAME = "job_DB";
     public static final String TABLE_NAME = "jobTab";
     public static final String TABLE_NAME_Learn = "job_learn";
+    public static final String TABLE_NAME_GO_EVENTS = "job_go_events";
     public static final int DATABASE_VERSION = 1;
     public static final String TAG_PID_learn = "pid_learn";
     public static final String TAG_TITLE_LEARN = "title_learn";
     public static final String TAG_COMPANY_NAME_LEARN = "company_name_learn";
     public static final String TAG_CLOSING_LEARN = "closing_learn";
+
+    public static final String TAG_PID_events = "pid_learn";
+    public static final String TAG_TITLE_events = "title_learn";
+    public static final String TAG_COMPANY_NAME_events = "company_name_learn";
+    public static final String TAG_CLOSING_events = "closing_learn";
 
 
     public static final String TAG_TITLE = "title";
@@ -86,7 +92,7 @@ public class SqlHandler {
         ourHelper.close();
     }
 
-    public void FillDataLearn(String pid, String title, String company_name, String closing, String pager) {
+    public void FillDataLearn(String pid, String title, String company_name, String closing, String pager, String city) {
         open();
 
         ContentValues cv = new ContentValues();
@@ -96,6 +102,7 @@ public class SqlHandler {
         cv.put(TAG_COMPANY_NAME_LEARN, company_name);
         cv.put(TAG_CLOSING_LEARN, closing);
         cv.put(TAG_PAGER, pager);
+        cv.put(TAG_city, city);
 
 
         if (!isAlreadyInsertedLearn(pid)) {
@@ -131,6 +138,24 @@ public class SqlHandler {
         Cursor cursor = null;
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME_Learn + " WHERE " + TAG_PID_learn + " = " + pid;
+            cursor = ourDb.rawQuery(selectQuery, null);
+            return cursor != null && cursor.getCount() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+
+            if (cursor != null)
+                cursor.close();
+        }
+    }
+
+
+    private boolean isAlreadyInsertedFree(String pid) {
+
+        Cursor cursor = null;
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME_FreeHour + " WHERE " + TAG_PID_FreeHour + " = " + pid;
             cursor = ourDb.rawQuery(selectQuery, null);
             return cursor != null && cursor.getCount() > 0;
         } catch (Exception e) {
@@ -180,7 +205,7 @@ public class SqlHandler {
         cv.put(TAG_Logo_FreeHour, clog);
 
 
-        if (!isAlreadyInserted(pid)) {
+        if (!isAlreadyInsertedFree(pid)) {
             long insert = ourDb.insert(TABLE_NAME_FreeHour, null, cv);
             Log.e("DB Free Hour", "insterted" + insert);
         } else {
@@ -601,6 +626,30 @@ public class SqlHandler {
         return cr;
     }
 
+    public void FillData_go_event(String pid, String title, String company_name, String closing, String logo) {
+        open();
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(TAG_PID_events, pid);
+        cv.put(TAG_TITLE_events, title);
+        cv.put(TAG_COMPANY_NAME_events, company_name);
+        cv.put(TAG_CLOSING_events, closing);
+        cv.put(TAG_PAGER, logo);
+
+
+        if (!isAlreadyInsertedLearn(pid)) {
+            long insert = ourDb.insert(TABLE_NAME_GO_EVENTS, null, cv);
+            Log.e("DB", "Learning Table insterted" + insert);
+        } else {
+            long update = ourDb.update(TABLE_NAME_GO_EVENTS, cv, TAG_PID_events + " = " + pid, null);
+            Log.e("DB", "Learning Table update" + update);
+        }
+        ourDb.close();
+
+
+    }
+
     private static class DbHelper extends SQLiteOpenHelper {
 
         public DbHelper(Context context) {
@@ -616,11 +665,16 @@ public class SqlHandler {
 
             //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
             db.execSQL("CREATE TABLE " + TABLE_NAME_Learn + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_learn + " TEXT,"
-                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_PAGER + " TEXT);");
+                    + TAG_TITLE_LEARN + " TEXT, " + TAG_COMPANY_NAME_LEARN + " TEXT , " + TAG_CLOSING_LEARN + " TEXT, " + TAG_city + " TEXT , " + TAG_PAGER + " TEXT);");
 
             //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
             db.execSQL("CREATE TABLE " + TABLE_NAME_FreeHour + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_FreeHour + " TEXT,"
                     + TAG_TITLE_FreeHour + " TEXT, " + TAG_COMPANY_NAME_FreeHour + " TEXT , " + TAG_CLOSING_FreeHour + " TEXT, " + TAG_Logo_FreeHour + " TEXT);");
+//go events table
+            //	db.execSQL("CREATE TABLE " + TABLE_NAME1 + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID + " TEXT," + TAG_LOGO + " TEXT," + TAG_SPONSOR + " TEXT);");
+            db.execSQL("CREATE TABLE " + TABLE_NAME_GO_EVENTS + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," + TAG_PID_events + " TEXT,"
+                    + TAG_TITLE_events + " TEXT, " + TAG_COMPANY_NAME_events + " TEXT , " + TAG_CLOSING_events + " TEXT, " + TAG_PAGER + " TEXT);");
+
 
         }
 
@@ -630,6 +684,7 @@ public class SqlHandler {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_Learn);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_FreeHour);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_GO_EVENTS);
             onCreate(db);
 
         }

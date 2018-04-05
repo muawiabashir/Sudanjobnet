@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_weight="1"
     android:orientation="vertical">
 
@@ -199,29 +200,35 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/apply"
-        style="?android:attr/buttonStyle"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="true">
 
-        android:background="@color/learn_color">
-
-        <TextView
-            style="?android:attr/buttonStyle"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/apply_freehour"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@null"
+            android:layout_weight="1"
             android:clickable="true"
+            android:focusable="true"
+            android:text="@string/apply"
+            android:textColor="@color/learn_color"
+            tools:ignore="ButtonStyle" />
 
-            android:focusable="false"
-            android:gravity="center"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:text="Register"
-            android:textColor="#ffffff" />
-    </FrameLayout>
+        <Button
+            android:id="@+id/share_freehour"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/share"
+
+            android:textColor="@color/learn_color"
+            tools:ignore="ButtonStyle" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>

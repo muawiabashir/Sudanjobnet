@@ -40,6 +40,7 @@ import onlinemarketing.net.sudanjobnet.Adapter.RecyclerAdapterGo_Event;
 import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
 import onlinemarketing.net.sudanjobnet.R;
+import onlinemarketing.net.sudanjobnet.helper.SqlHandler;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
 
@@ -58,7 +59,7 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
     private RequestQueue requestQueue;
     private TextView title, company_name, closing, city, footer;
     private ImageView clogo;
-    //SqlHandler db;
+    SqlHandler db;
     private LinearLayout no_content;
     private SearchView searchView = null;
     private SearchView.OnQueryTextListener queryTextListener;
@@ -241,7 +242,7 @@ public class Fragment_go_event_List extends Fragment implements RecyclerAdapterG
                     go_event_items.setCompany_name(company_name);
                     String closing = json.getString("closing_goevent");
                     go_event_items.setClosing(closing);
-                    //  db.FillData(pid, title, company_name, closing, logo);
+//                      db.FillData_go_event(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

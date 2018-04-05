@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,7 +73,7 @@ public class Fragment_learning_Details extends Activity {
         length1 = findViewById(R.id.length_learn);
         duration1 = findViewById(R.id.duration_learn);
        // db = new SqlHandler(this);
-        FrameLayout apply = findViewById(R.id.apply_learn);
+        Button apply = findViewById(R.id.apply_learn);
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +84,27 @@ public class Fragment_learning_Details extends Activity {
                 startActivity(i);
             }
         });
+        final Button share = findViewById(R.id.share_learn);
+        share.setOnClickListener(new View.OnClickListener() {
+            LearningItems
+                    jobItem = (LearningItems) getIntent().getSerializableExtra("item");
+            Uri imageUri = Uri.parse(jobItem.getClogo());
 
+            @Override
+            public void onClick(View v) {
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                // Add data to the intent, the receiving app will decide
+                // what to do with it.
+                share.putExtra(Intent.EXTRA_SUBJECT, "Job Title: " + jobItem.getTitle());
+                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n\n Click the link below for more information  \n\n\n" + URL_det + jobItem.getPid());
+                share.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+                startActivity(Intent.createChooser(share, "Share Learn with friends !"));
+            }
+        });
         if (Util.checknetwork(this)) {
             getData();
 

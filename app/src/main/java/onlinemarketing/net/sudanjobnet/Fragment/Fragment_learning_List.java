@@ -251,7 +251,9 @@ dialog.dismiss();
                     jobitems.setCompany_name(company_name);
                     String closing = json.getString("closing_learn");
                     jobitems.setClosing(closing);
-                    db.FillDataLearn(pid, title, company_name, closing, logo);
+                    String city = json.getString("city");
+                    jobitems.setCity(city);
+                    db.FillDataLearn(pid, title, company_name, closing, logo, city);
                     // db.FillData(pid, title, company_name, closing, logo);
                 } catch (JSONException e) {
                     e.printStackTrace();

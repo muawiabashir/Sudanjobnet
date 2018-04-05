@@ -26,9 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.Go_event_Items;
-import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
 import onlinemarketing.net.sudanjobnet.util.Util;
 
@@ -48,7 +46,7 @@ public class Fragment_go_event_Details extends Activity {
     private TextView closing;
     private TextView city;
     private TextView footer,length1,duration1;
-    private JobItems pid;
+    private TextView pid;
     private ImageView clogo;
     private ImageLoader imageLoader;
     private ArrayList<Go_event_Items> jobItemsArrayList = new ArrayList<>();
@@ -62,9 +60,8 @@ public class Fragment_go_event_Details extends Activity {
         LinearLayout linlaHeaderProgress = findViewById(R.id.linlaHeaderProgress);
 
 
-
-        // pid = (TextView) findViewById(R.id.pid);
-        title = findViewById(R.id.title);
+        pid = (TextView) findViewById(R.id.pid16);
+        title = findViewById(R.id.title16);
         company_name = findViewById(R.id.company_name16);
         closing = findViewById(R.id.closing16);
        // city = findViewById(R.id.city);
@@ -143,7 +140,7 @@ public class Fragment_go_event_Details extends Activity {
 
                                     String pid = json.getString("pid_goevent");
                                     go_event_items.setPid(pid);
-                                    String footer1 = json.getString("footer");
+                                    String footer1 = json.getString("footer_goevent");
                                     go_event_items.setPid(footer1);
                                     String titleStr = json.getString("title_goevent");
                                     go_event_items.setTitle(titleStr);
@@ -165,16 +162,16 @@ public class Fragment_go_event_Details extends Activity {
                                   //  jobitems.setFooter(footer2);
                                     // title.setText(jobitems.getTitle());
                                     // company_name.setText(jobitems.getCompany_name());
-                                    title.setText(Html.fromHtml(go_event_items.getTitle()));
+                                    title.setText(go_event_items.getTitle());
                                     company_name.setText(Html.fromHtml(go_event_items.getCompany_name()));
-//                                    city.setText(Html.fromHtml(learningItems.getCity()));
+//                                   city.setText(Html.fromHtml(go_event_items.getCity()));
                                     closing.setText(go_event_items.getClosing());
                                     footer.setText(Html.fromHtml(go_event_items.getFooter()));
-                    //                length1.setText(Html.fromHtml(learningItems.getLength()));
-//                                    duration1.setText(Html.fromHtml(learningItems.getDuration()));
-                                    imageLoader = CustomVolleyRequest.getInstance(Fragment_go_event_Details.this).getImageLoader();
+//                                   length1.setText(Html.fromHtml(go_event_items.getLength()));
+//                                   duration1.setText(Html.fromHtml(go_event_items.getDuration()));
+                                    //                imageLoader = CustomVolleyRequest.getInstance(Fragment_go_event_Details.this).getImageLoader();
 
-                                    imageLoader.get(go_event_items.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
+                                    //                imageLoader.get(go_event_items.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
                                    // imageLoader.get(learningItems.getClogo(), ImageLoader.getImageListener(clogo, R.drawable.ic_launcher, android.R.drawable.ic_dialog_alert));
                                  //   db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
 //                                  ((PiwikApplication)getApplication()).getTracker();

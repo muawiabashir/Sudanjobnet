@@ -365,18 +365,20 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
     @Override
     public void OnClick(Object objet, int position) {
         Intent intent = new Intent(getActivity(), Fragment_Job_Details.class);
+        if (!Util.checknetwork(getActivity())) {
+            Toast.makeText(getActivity(), "Please Connect to the internet", Toast.LENGTH_LONG).show();
+        } else {
+            JobItems item1 = new JobItems();
 
-        JobItems item1 = new JobItems();
-
-        if (objet instanceof JobItems)
-            item1 = (JobItems) objet;
-
-
-        intent.putExtra("item", item1);
-        intent.putExtra("pid=", item1.getPid());
-        startActivity(intent);
+            if (objet instanceof JobItems)
+                item1 = (JobItems) objet;
 
 
+            intent.putExtra("item", item1);
+            intent.putExtra("pid=", item1.getPid());
+            startActivity(intent);
+
+        }
     }
 
     private void loadMore() {
