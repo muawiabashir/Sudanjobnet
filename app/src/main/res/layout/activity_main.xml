@@ -79,7 +79,8 @@
                         android:textStyle="normal"
                         tools:ignore="HardcodedText" />
                 </android.support.v7.widget.Toolbar>
-                <android.support.design.widget.TabLayout
+
+                <com.rahimlis.badgedtablayout.BadgedTabLayout
                     android:id="@+id/tabs"
                     style="@style/TabLayoutStyle"
                     android:layout_width="match_parent"
@@ -87,6 +88,7 @@
                     android:layout_gravity="bottom"
                     app:tabIndicatorColor="@color/colorAccent"
                     app:tabTextAppearance="@style/TabTextAppearance"
+                    app:badgeBackgroundColor="@color/white"
                     app:tabTextColor="@color/colorAccent" />
 
             </android.support.design.widget.CollapsingToolbarLayout>

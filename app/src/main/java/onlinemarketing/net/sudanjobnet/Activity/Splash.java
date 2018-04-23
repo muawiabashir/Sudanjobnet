@@ -1,26 +1,16 @@
 package onlinemarketing.net.sudanjobnet.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PixelFormat;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.transition.Explode;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-import com.easyandroidanimations.library.FlipVerticalAnimation;
-import com.easyandroidanimations.library.PuffInAnimation;
-import com.easyandroidanimations.library.ShakeAnimation;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 import onlinemarketing.net.sudanjobnet.R;
 
 
@@ -41,7 +31,9 @@ public class Splash extends AppCompatActivity
         setContentView( R.layout.splash_screen);
         StartAnimations();
       //  AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
+//        Fragment_Job_List fragment_job_list= new Fragment_Job_List();
+//        fragment_job_list.firstTimeLoadData();
+////        fragment_job_list.loadMore();
         downscaleBitmapUsingDensities(80,R.drawable.bachground01);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Explode explode = new Explode();

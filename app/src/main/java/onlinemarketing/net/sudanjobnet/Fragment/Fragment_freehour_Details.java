@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +30,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.FreeHourItems;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.R;
@@ -84,6 +85,27 @@ public class Fragment_freehour_Details extends AppCompatActivity {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(URL_det + jobItem.getPid()));
                 startActivity(i);
+            }
+        });
+        Button share = (Button) findViewById(R.id.share_freehour);
+        share.setOnClickListener(new View.OnClickListener() {
+            FreeHourItems
+                    jobItem = (FreeHourItems) getIntent().getSerializableExtra("item");
+            Uri imageUri = Uri.parse(jobItem.getClogo());
+
+            @Override
+            public void onClick(View v) {
+                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+                // Add data to the intent, the receiving app will decide
+                // what to do with it.
+                share.putExtra(Intent.EXTRA_SUBJECT, "FreeHoure Title: " + jobItem.getTitle());
+                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n Click the link below for more information  \n\n" + URL_det + jobItem.getPid());
+                share.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+                startActivity(Intent.createChooser(share, "Share FreeHoure with friends !"));
             }
         });
         if (Util.checknetwork(this)) {
@@ -183,8 +205,6 @@ public class Fragment_freehour_Details extends AppCompatActivity {
                                     String duration2 = json.getString("duration_freehour");
 
                                     jobitems.setDuration(duration2);
-                                    // title.setText(jobitems.getTitle());
-                                    // company_name.setText(jobitems.getCompany_name());
                                     title.setText(Html.fromHtml(jobitems.getTitle()));
                                     company_name.setText(Html.fromHtml(jobitems.getCompany_name()));
                                     city.setText(Html.fromHtml(jobitems.getCity()));
@@ -192,8 +212,12 @@ public class Fragment_freehour_Details extends AppCompatActivity {
                                     footer.setText(Html.fromHtml(jobitems.getFooter()));
                                     length1.setText(jobitems.getLength());
                                     duration1.setText(jobitems.getDuration());
-                                     imageLoader = CustomVolleyRequest.getInstance(Fragment_freehour_Details.this).getImageLoader();
-                                   // imageLoader.get(jobitems.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
+                                    Glide.with(getApplicationContext()).load(jobitems.getClogo())
+                                            .thumbnail(0.5f)
+                                            .apply(new RequestOptions().placeholder(R.mipmap.no_image).error(R.mipmap.no_image))
+                                            .into(clogo);
+                                    //    imageLoader = CustomVolleyRequest.getInstance(Fragment_freehour_Details.this).getImageLoader();
+//                                  imageLoader.get(jobitems.getClogo(), ImageLoader.getImageListener(clogo, R.mipmap.no_image, R.mipmap.no_image));
                                     //     db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
                                     //    ((PiwikApp)getApplication()).getTracker()
                                     //        .trackScreenView("Job Details",pid +" "+ titleStr +" "+company_name1);

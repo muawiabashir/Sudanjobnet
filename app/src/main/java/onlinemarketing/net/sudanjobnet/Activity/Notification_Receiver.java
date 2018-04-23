@@ -49,9 +49,10 @@ public class Notification_Receiver extends BroadcastReceiver {
         builder = builder
                 .setSmallIcon(R.mipmap.icon_sudanjob1)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+
                 .setContentTitle(context.getString(R.string.app_name))
                 .setTicker(context.getString(R.string.hary))
-
+                .setSmallIcon(R.mipmap.icon_sudanjob1)
                 .setBadgeIconType(R.mipmap.icon_sudanjob1)
                 //.setContentText("Last day for the following Positions:" + intent.getExtras().getString("title") + "\n\n")
                 .setDefaults(Notification.DEFAULT_ALL)

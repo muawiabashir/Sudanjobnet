@@ -2,8 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="right|top"
+    android:layout_height="wrap_content"
+    android:gravity="left|top"
     android:orientation="horizontal">
 
 
@@ -20,29 +20,33 @@
 
         <TextView
             android:id="@+id/Notifi_ti"
-            android:layout_width="match_parent"
+            android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="18dp"
-
-            android:layout_marginStart="18dp"
+            android:layout_marginLeft="86dp"
+            android:layout_marginStart="86dp"
             android:layout_toEndOf="@+id/comtext"
             android:layout_toRightOf="@+id/comtext"
-            android:gravity="center"
+            android:gravity="left"
             android:paddingTop="15dp"
-            android:text="Jobs Closing today"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+            android:text="Jobs closing today"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Notifi_com"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="85dp"
+            android:layout_marginStart="85dp"
+            android:gravity="left"
 
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/Notifi_ti"
-            android:gravity="center"
-            android:paddingTop="15dp"
+            android:textStyle="italic"
+
             android:text="com"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
 
@@ -56,21 +60,23 @@
 
         <TextView
             android:id="@+id/notifi_title"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-
+            android:layout_marginLeft="85dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/Notifi_com"
-            android:gravity="center"
-            android:text="com"
+            android:layout_marginStart="85dp"
+            android:gravity="left"
+            android:paddingBottom="10dp"
+            android:text="title"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_width="79dp"
+            android:layout_height="65dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="right|top"
             android:contentDescription="text"

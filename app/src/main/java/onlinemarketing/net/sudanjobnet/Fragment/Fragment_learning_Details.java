@@ -23,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onlinemarketing.net.sudanjobnet.Json.CustomVolleyRequest;
 import onlinemarketing.net.sudanjobnet.Model.JobItems;
 import onlinemarketing.net.sudanjobnet.Model.LearningItems;
 import onlinemarketing.net.sudanjobnet.R;
@@ -43,7 +44,7 @@ import onlinemarketing.net.sudanjobnet.util.Util;
 public class Fragment_learning_Details extends AppCompatActivity {
 
     String URL = "http://www.learnpage.net/applearndet.php?pid=";
-    String URL_det = "http://www.learnpage.net/event.php?id=";
+    //String URL_det = "http://www.learnpage.net/event.php?id=";
     //SqlHandler db;
     Context mContext;
     LearningItems learningItems = new LearningItems();
@@ -74,7 +75,7 @@ public class Fragment_learning_Details extends AppCompatActivity {
         // pid = (TextView) findViewById(R.id.pid);
         title = findViewById(R.id.title_learn);
         company_name = findViewById(R.id.company_name_learn);
-        closing = findViewById(R.id.closing_learning);
+        closing = findViewById(R.id.closing_learn);
         // city = findViewById(R.id.city);
         footer = findViewById(R.id.footer_learn);
         clogo = findViewById(R.id.clogo_learn);
@@ -88,11 +89,11 @@ public class Fragment_learning_Details extends AppCompatActivity {
                 LearningItems jobItem = new LearningItems();
                 jobItem = (LearningItems) getIntent().getSerializableExtra("item");
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(URL_det + jobItem.getPid()));
+                i.setData(Uri.parse(URL + jobItem.getPid()));
                 startActivity(i);
             }
         });
-        final Button share = findViewById(R.id.share_learn);
+        final Button share = findViewById(R.id.share_Learn);
         share.setOnClickListener(new View.OnClickListener() {
             LearningItems
                     jobItem = (LearningItems) getIntent().getSerializableExtra("item");
@@ -107,7 +108,7 @@ public class Fragment_learning_Details extends AppCompatActivity {
                 // Add data to the intent, the receiving app will decide
                 // what to do with it.
                 share.putExtra(Intent.EXTRA_SUBJECT, "Job Title: " + jobItem.getTitle());
-                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n\n Click the link below for more information  \n\n\n" + URL_det + jobItem.getPid());
+                share.putExtra(Intent.EXTRA_TEXT, "\n\n Hello....\n\n\n Click the link below for more information  \n\n\n" + URL + jobItem.getPid());
                 share.putExtra(Intent.EXTRA_STREAM, imageUri);
 
                 startActivity(Intent.createChooser(share, "Share Learn with friends !"));
@@ -197,10 +198,13 @@ public class Fragment_learning_Details extends AppCompatActivity {
 //                                    city.setText(Html.fromHtml(learningItems.getCity()));
                                     closing.setText(learningItems.getClosing());
                                     footer.setText(Html.fromHtml(learningItems.getFooter()));
-                    //                length1.setText(Html.fromHtml(learningItems.getLength()));
-//                                    duration1.setText(Html.fromHtml(learningItems.getDuration()));
-                                    imageLoader = CustomVolleyRequest.getInstance(Fragment_learning_Details.this).getImageLoader();
-
+                                    length1.setText(Html.fromHtml(learningItems.getLength()));
+                                    duration1.setText(Html.fromHtml(learningItems.getDuration()));
+                                    //   imageLoader = CustomVolleyRequest.getInstance(Fragment_learning_Details.this).getImageLoader();
+                                    Glide.with(getApplicationContext()).load(learningItems.getClogo())
+                                            .thumbnail(0.5f)
+                                            .apply(new RequestOptions().placeholder(R.mipmap.ic_learn).error(R.mipmap.ic_learn))
+                                            .into(clogo);
                                    // imageLoader.get(learningItems.getClogo(), ImageLoader.getImageListener(clogo, R.drawable.ic_launcher, android.R.drawable.ic_dialog_alert));
                                  //   db.FillDetails(pid, titleStr, company_name1, closing1, city1, footer2);
 //                                  ((PiwikApplication)getApplication()).getTracker();

@@ -57,8 +57,8 @@
 
                     <ImageView
                         android:id="@+id/clogo3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="16dp"
@@ -217,7 +217,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/apply"
+            android:text="Register"
             android:textColor="@color/learn_color"
             tools:ignore="ButtonStyle" />
 

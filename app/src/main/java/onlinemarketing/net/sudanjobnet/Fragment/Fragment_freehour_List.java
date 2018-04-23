@@ -122,7 +122,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 
                 mSwipeRefreshLayout.setRefreshing(true);
                 if (Util.checknetwork(getActivity())) {
-                    getData();
+                    getFreeHourData();
 
 
                 } else {
@@ -190,7 +190,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
     }
 
     //This method will get data from the web api
-    private void getData() {
+    private void getFreeHourData() {
         final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
         dialog.show();
         //Showing a progress dialog
@@ -322,7 +322,7 @@ public class Fragment_freehour_List extends Fragment implements RecyclerAdapterF
 
     @Override
     public void onRefresh() {
-        getData();
+        getFreeHourData();
         final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
         dialog.show();
      //   linlaHeaderProgress.setVisibility(View.GONE);

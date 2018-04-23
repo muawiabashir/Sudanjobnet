@@ -38,6 +38,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.rahimlis.badgedtablayout.BadgedTabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView = null;
     boolean doubleBackToExitPressedOnce = false;
     private SqlHandler db;
-    private TabLayout tabLayout;
+    private BadgedTabLayout tabLayout;
     private ImageLoader imageLoader;
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -83,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //SqlHandler db;
     private String[] title = {"Jobs", "Learn", "Training", "Go Event"
     };
-    private int[] tabIcons = {
-            R.drawable.ic_tab_sudanjob,
-            R.drawable.ic_tab_sudanjob,
-            R.drawable.ic_tab_sudanjob,
-            R.drawable.ic_tab_sudanjob
-    };
+    //    private int[] tabIcons = {
+//            R.drawable.ic_tab_sudanjob,
+//            R.drawable.ic_tab_sudanjob,
+//            R.drawable.ic_tab_sudanjob,
+//            R.drawable.ic_tab_sudanjob
+//    };
     private ProgressDialog pd = null;
 
     @Override
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
+        // BadgedTabLayout tabLayout = (BadgedTabLayout) findViewById(R.id.tabs);
         TrafficStats.setThreadStatsTag(THREAD_ID);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,14 +136,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getHeaderImage();
         check_4_Updates();
         NetworkImageView header_inageview = findViewById(R.id.image_header);
-        header_inageview.setImageResource(R.drawable.appheader);
+        //  header_inageview.setImageResource(R.drawable.appheader);
 
         viewPager.setOffscreenPageLimit(1);
 //       TextView tv2=(TextView)findViewById(R.id.toolbar_title);
 //
 //        Typeface face= Typeface.createFromAsset(getAssets(), "font01.ttf");
 //        tv2.setTypeface(face);
+        //first parameter is the tab index, at which badge should appear
 
+
+        db = new SqlHandler(this);
+        int getjobsCount = db.getjobsCount();
+        db.close();
+        if (getjobsCount < 10) {
+            tabLayout.setBadgeText(0, null);
+        } else {
+
+            tabLayout.setBadgeText(0, String.valueOf(getjobsCount));
+            //if you want to hide a badge pass null as a second parameter
+            //tabLayout.setBadgeText(0, "1");
+        }
+        int getjobsCount_learn = db.getjobsCount_learn();
+        db.close();
+        if (getjobsCount == 0) {
+            tabLayout.setBadgeText(1, null);
+        } else {
+
+            tabLayout.setBadgeText(1, String.valueOf(getjobsCount_learn));
+            //if you want to hide a badge pass null as a second parameter
+            //tabLayout.setBadgeText(0, "1");
+        }
+        int getjobsCount_FreeHour = db.getjobsCount_FreeHour();
+        db.close();
+        if (getjobsCount_FreeHour == 0) {
+            tabLayout.setBadgeText(2, null);
+        } else {
+
+            tabLayout.setBadgeText(2, String.valueOf(getjobsCount_FreeHour));
+            //if you want to hide a badge pass null as a second parameter
+            //tabLayout.setBadgeText(0, "1");
+        }
+
+        int getjobsCount_go_event = db.getjobsCount_go_event();
+        db.close();
+        if (getjobsCount_go_event == 0) {
+            tabLayout.setBadgeText(3, null);
+        } else {
+
+            tabLayout.setBadgeText(3, String.valueOf(getjobsCount_go_event));
+            //if you want to hide a badge pass null as a second parameter
+            //tabLayout.setBadgeText(0, "1");
+        }
     }
 
     private void setupCollapsingToolbar() {
@@ -180,12 +225,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-    }
+//    private void setupTabIcons() {
+//        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+//        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+//        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+//        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+//    }
 
     public void check_4_Updates() {
         AppUpdater appUpdater = new AppUpdater(this);
@@ -347,6 +392,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             i.setData(Uri.parse("http://sudanjob.net/register.php"));
             startActivity(i);
 
+        } else if (id == R.id.close) {
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -426,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        .thumbnail(0.5f)
 //
 //                        .into(header_inageview);
-                imageLoader.get(headerImage.getHeader(), ImageLoader.getImageListener(header_inageview, R.mipmap.no_image, R.mipmap.no_image));
+                imageLoader.get(headerImage.getHeader(), ImageLoader.getImageListener(header_inageview, R.mipmap.icon_sudanjob1, R.mipmap.icon_sudanjob1));
                 header_inageview.setImageUrl(header, imageLoader);
             } catch (JSONException e) {
                 e.printStackTrace();

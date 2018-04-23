@@ -115,6 +115,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
         final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+
         // recyclerView.addItemDecoration(new MyDividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL, 36));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
@@ -228,8 +229,8 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
     }
 
     //This method will get data from the web api
-    private void firstLoadData() {
-        if (Util.checknetwork(getActivity())) {
+    public void firstLoadData() {
+//        if (Util.checknetwork(getActivity())) {
 
             final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
             dialog.show();
@@ -297,12 +298,12 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
             //Creating request queue
             CustomVolleyRequest.getInstance(getContext()).getRequestQueue().add(jsonArrayRequest);
 
-        } else {
-            mSwipeRefreshLayout.setRefreshing(false);
-            final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
-            dialog.dismiss();
-//Toast.makeText(getApplicationContext(),"there is no internet please check the connectivity ",Toast.LENGTH_LONG).show();
-        }
+//        } else {
+//            mSwipeRefreshLayout.setRefreshing(false);
+//            final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+//            dialog.dismiss();
+////Toast.makeText(getApplicationContext(),"there is no internet please check the connectivity ",Toast.LENGTH_LONG).show();
+//        }
     }
 
     //This method will parse json data
@@ -387,7 +388,7 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
 //        }
     }
 
-    private void loadMore() {
+    public void loadMore() {
         itShouldLoadMore = false; // lock this until volley completes processing
         String url = "http://sudanjob.net/appjobs.php?action=loadmore&lastId=" + lastId + "&limit=" + LOAD_LIMIT_loadMore;
         //  Toast.makeText(getApplicationContext(), lastId, Toast.LENGTH_LONG).show();
@@ -516,5 +517,139 @@ public class Fragment_Job_List extends Fragment implements RecyclerAdapterJobs.O
             e.printStackTrace();
         }
         return s;
+    }
+
+    public void firstTimeLoadData() {
+//        if (Util.checknetwork(getActivity())) {
+
+//        final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+//        dialog.show();
+//        mSwipeRefreshLayout.setRefreshing(false);
+        //   linlaHeaderProgress.setVisibility(View.VISIBLE);
+
+        //  itShouldLoadMore = false;
+        JsonObjectRequest jsonArrayRequest1 = new JsonObjectRequest(URL, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        itShouldLoadMore = true;
+
+                        try {
+                            JSONArray jsonarray1 = response.getJSONArray("product");
+                            //      linlaHeaderProgress.setVisibility(View.GONE);
+                            if (jsonarray1 != null) {
+
+
+                                //       dialog.dismiss();
+                                //calling method to parse json array
+                                loadData(jsonarray1);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //     linlaHeaderProgress.setVisibility(View.GONE);
+                        itShouldLoadMore = true;
+//                        dialog.dismiss();
+//                        mSwipeRefreshLayout.setRefreshing(false);
+                        String message = null;
+                        if (volleyError instanceof NetworkError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ServerError) {
+                            message = "The server could not be found. Please try again after some time!!";
+                        } else if (volleyError instanceof AuthFailureError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof ParseError) {
+                            message = "Parsing error! Please try again after some time!!";
+                        } else if (volleyError instanceof NoConnectionError) {
+                            message = "Cannot connect to Internet...Please check your connection!";
+                        } else if (volleyError instanceof TimeoutError) {
+                            message = "Connection TimeOut! Please check your internet connection.";
+                        }
+                        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+                    }
+
+                }) {
+
+        };
+//        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        jsonArrayRequest.setShouldCache(true);
+
+        //Creating request queue
+        CustomVolleyRequest.getInstance(getContext()).getRequestQueue().add(jsonArrayRequest1);
+
+//        } else {
+//            mSwipeRefreshLayout.setRefreshing(false);
+//            final AlertDialog dialog = new SpotsDialog(getActivity(), R.style.progress_dialog);
+//            dialog.dismiss();
+////Toast.makeText(getApplicationContext(),"there is no internet please check the connectivity ",Toast.LENGTH_LONG).show();
+//        }
+    }
+
+    //This method will parse json data
+    private void loadData(JSONArray array) {
+
+        for (int i = 0; i < array.length(); i++) {
+            JobItems jobitems = new JobItems();
+            JSONObject json = null;
+
+            try {
+
+
+                json = array.getJSONObject(i);
+                if (json != null) {
+                    String pid1 = json.getString("pid");
+                    jobitems.setPid(pid1);
+                    lastId = json.getString("pid");
+                    Log.v("Last ID First Load", lastId);
+                    String logo = json.getString("logo");
+                    jobitems.setClogo(logo);
+                    String title1 = json.getString("title");
+                    jobitems.setTitle(title1);
+                    String company_name1 = json.getString("company_name");
+                    jobitems.setCompany_name(company_name1);
+                    String closing1 = json.getString("closing");
+                    jobitems.setClosing(closing1);
+                    // LocalDate today = LocalDate.now();
+                    Calendar c1 = Calendar.getInstance();
+                    DateTimeFormatter fmt = DateTimeFormat.forPattern("dd MMMM yyyy");
+
+                    DateTime c_date = fmt.parseDateTime(closing1);
+                    String posted_on = json.getString("posted_on");
+                    jobitems.setPosted_on(posted_on);
+                    db.FillData2(pid1, title1, company_name1, closing1, posted_on, logo, ConvertDate(closing1));
+
+
+                    DateTime today = new DateTime();
+                    int todyint = today.getDayOfMonth();
+                    Period period = new Period(today, c_date);
+                    //   adapter.notifyDataSetChanged();
+                    Days days = Days.daysBetween(today.withTimeAtStartOfDay(), c_date.withTimeAtStartOfDay());
+
+                } else {
+                    Toast.makeText(getActivity(), "there is no Post Now ", Toast.LENGTH_LONG).show();
+                }
+                //   Log.v("Last ID First Load",lastId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            // mSwipeRefreshLayout.setRefreshing(false);
+            jobItemsArrayList.add(jobitems);
+
+            // recyclerView.setAdapter(adapter);
+            //   adapter.notifyDataSetChanged();
+
+
+        }
     }
 }

@@ -188,7 +188,7 @@ public class Fragment_go_event_Details extends AppCompatActivity {
                                   //  jobitems.setFooter(footer2);
                                     // title.setText(jobitems.getTitle());
                                     // company_name.setText(jobitems.getCompany_name());
-                                    title.setText(go_event_items.getTitle());
+                                    title.setText(Html.fromHtml(go_event_items.getTitle()));
                                     company_name.setText(Html.fromHtml(go_event_items.getCompany_name()));
 //                                   city.setText(Html.fromHtml(go_event_items.getCity()));
                                     closing.setText(go_event_items.getClosing());

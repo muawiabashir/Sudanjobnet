@@ -696,6 +696,46 @@ public class SqlHandler {
 
     }
 
+    public int getjobsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        // SQLiteDatabase db = this.getReadableDatabase();
+        open();
+        Cursor cursor = ourDb.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public int getjobsCount_learn() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME_Learn;
+        // SQLiteDatabase db = this.getReadableDatabase();
+        open();
+        Cursor cursor = ourDb.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public int getjobsCount_FreeHour() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME_FreeHour;
+        // SQLiteDatabase db = this.getReadableDatabase();
+        open();
+        Cursor cursor = ourDb.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public int getjobsCount_go_event() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME_GO_EVENTS;
+        // SQLiteDatabase db = this.getReadableDatabase();
+        open();
+        Cursor cursor = ourDb.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     private static class DbHelper extends SQLiteOpenHelper {
 
         public DbHelper(Context context) {
